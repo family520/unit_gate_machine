@@ -1,0 +1,116 @@
+.callPro {
+	width: 100%;
+	height: 100%;
+}
+
+/* headerBox样式 */
+.headerBox {
+	width: 100%;
+	height: 0.98rem;
+	background: white;
+	border: solid 0.01rem #eeeeee;
+	position: relative;
+}
+
+.headerBox img {
+	position: absolute;
+	top: 50%;
+	left: 0.2rem;
+	z-index: 999;
+	transform: translateY(-50%);
+	width: 0.16rem;
+	height: 0.3rem;
+	margin-left: 0.2rem;
+}
+
+.headerBox p {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	line-height: 0.98rem;
+	text-align: center;
+	font-size: 0.36rem;
+	font-weight: bold;
+	letter-spacing: 0.02rem;
+	color: #333333;
+}
+
+/* 视频主题样式 */
+.videoBox {
+	width: 100%;
+	height: calc(100% - 0.98rem);
+	position: relative;
+	background: rgba(0, 0, 0, 1);
+}
+
+.rightTopBox {
+	position: absolute;
+	top: 0.3rem;
+	right: 0.2rem;
+	width: 1.5rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	background-color: #e6e6e6;
+	border-radius: 0.1rem;
+	font-size: 0.24rem;
+	color: #ff3333;
+	border: solid 0.01rem #e6e6e6;
+}
+
+.videoMenuBox {
+	position: absolute;
+	bottom: 0.24rem;
+	left: 0.3rem;
+	width: 6.9rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	padding: 0.2rem;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	background-image: linear-gradient(90deg,
+		#0066ff 0%,
+		#6699ff 100%);
+	border-radius: 0.2rem;
+	opacity: 0.8;
+}
+
+.hangUp {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+
+.goonIcon {
+	width: 0.93rem;
+	height: 0.4rem;
+}
+
+.textBox>p:nth-child(1) {
+	font-size: 0.36rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #ffffff;
+}
+
+.textBox>p:nth-child(2) {
+	font-size: 0.24rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #ffffff;
+}
+
+.time {
+	font-size: 0.36rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #ffffff;
+}

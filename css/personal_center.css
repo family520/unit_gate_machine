@@ -1,0 +1,368 @@
+#personalCenter {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+/* bannerBox样式 */
+.bannerBox {
+	width: 100%;
+	height: 3.2rem;
+	background: url(../img/personal_center/bannerBj.png) no-repeat;
+	background-size: 100% 100%;
+}
+.bannerBox > p {
+	height: 0.8rem;
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
+.bannerBox > p > img {
+	width: 0.17rem;
+	height: 0.3rem;
+	margin:0 0.2rem;
+}
+.bannerBox > p > span {
+	font-size: 0.36rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #ffffff;
+	margin-left: 2.5rem;
+}
+/* mainBox样式 */
+.mainBox {
+	width: 100%;
+	position: absolute;
+	top:2.2rem;
+	left: 0;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+}
+.mainBox .oenBox {
+	height: 2.4rem;
+	background-color: #ffffff;
+	box-shadow: 0rem 0rem 0.1rem 0rem 
+		rgba(0, 0, 0, 0.2);
+	border-radius: 0.1rem;
+	position: relative;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+.editIcon {
+	position: absolute;
+	top: 0.6rem;
+	right: 0.4rem;
+	width: 0.28rem;
+	height: 0.28rem;
+}
+.userIcon {
+	width: 1.2rem;
+	height: 1.2rem;
+	border-radius: 50%;
+	margin: 0 0.4rem;
+}
+.userName {
+	font-size: 0.36rem;
+	line-height: 0.7rem;
+	letter-spacing: 0.01rem;
+	color: #333333;
+}
+/* 基本信息样式 */
+.userInfoBox {
+	width: 100%;
+	margin-top: 0.5rem;
+}
+.userListBox {
+	width: 100%;
+	height: 1rem;
+	line-height: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 0.02rem solid #e6e6e6;
+}
+.userListBox .leftBox {
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+.userListBox .leftBox > img {
+	width: 0.3rem;
+	height: 0.32rem;
+}
+.userListBox .leftBox > span {
+	font-size: 0.3rem;
+	line-height: 0.7rem;
+	letter-spacing: 0.006rem;
+	color: #333333;
+	margin-left: 0.22rem;
+}
+.userListBox .textName {
+	font-size: 0.3rem;
+	line-height: 0.7rem;
+	letter-spacing: 0rem;
+	color: #666666;
+	padding-right: 0.1rem;
+	box-sizing: border-box;
+}
+.rightBox {
+	display: flex;
+	align-items: center;
+}
+.rightBox > img {
+	margin-left: 0.1rem;
+	width: 0.17rem;
+	height: 0.3rem;
+}
+/* 弹框样式 */
+.template {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #F1F1F1;
+}
+/* 个人信息编辑样式 */
+.userInfoEdit {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.headerBox {
+	width: 100%;
+	background: #FFFFFF;
+	height: 0.8rem;
+	display: flex;
+	align-items: center;
+	justify-content: left;
+}
+.headerBox > img {
+	width: 0.17rem;
+	height: 0.3rem;
+	margin: 0 0.3rem;
+}
+.headerBox > span {
+	font-size: 0.34rem;
+	line-height: 0.24rem;
+	color: #333333;
+}
+.minBox {
+	margin-top: 0.2rem;
+	width: 100%;
+	background: white;
+}
+.minBox > p {
+	padding: 0.2rem 0.3rem;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid #F1F1F1;
+}
+.minBox > p .leftName {
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0.05rem;
+	color: #333333;
+}
+.minBox > p .rightMinBox {
+	display: flex;
+	align-items: center;
+}
+.minBox > p .rightMinBox > img:nth-child(1){
+	width: 1.2rem;
+	height: 1.2rem;
+	border-radius: 50%;
+	margin: 0 0.2rem;
+}
+.minBox > p .rightMinBox > img:nth-child(2){
+	width: 0.17rem;
+	height: 0.3rem;
+}
+.minBox > p .rightMinBox > span {
+	font-size: 0.28rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+	margin: 0 0.3rem;
+}
+/* 修改用户名 */
+.userNameEdit {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #F1F1F1;
+}
+.nameEdit {
+	width: 100%;
+	height: 0.8rem;
+	position: relative;
+	background: #FFFFFF;
+	margin-top: 0.2rem;
+}
+.nameEdit input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	padding-left: 0.3rem;
+	font-size: 0.28rem;
+	color: #333333;
+}
+.nameEdit > img {
+	position: absolute;
+	top:0.25rem;
+	right: 0.3rem;
+	width: 0.17rem;
+	height: 0.3rem;
+}
+/* 修改手机号 */
+.telEdit {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #F1F1F1;
+}
+.contBox {
+	width: 100%;
+	background: white;
+	margin-top: 0.2rem;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+}
+.contBox > p {
+	height: 1.1rem;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #CCCCCC;
+}
+.contBox > p:last-child{
+	border: none;
+}
+.contBox > p > span {
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+}
+.contBox > p > input {
+	width: 70%;
+	height: 100%;
+	margin-right: 0.4rem;
+	font-size: 0.28rem;
+	border: none;
+	outline: none;
+	line-height: 0.24rem;
+}
+.editBtn {
+	width: 6.9rem;
+	height: 0.8rem;
+	background-color: #0066ff;
+	border-radius: 0.08rem;
+	margin-left: 0.3rem;
+	border: none;
+	outline: none;
+	font-size: 0.28rem;
+	line-height: 0.24rem;
+	color: #ffffff;
+}
+.tipSpan {
+	display: inline-block;
+	width: 100%;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+	font-size: 0.28rem;
+	line-height: 0.24rem;
+	color: #666666;
+}
+/* 错误提示 */
+.errorBox {
+	margin-top: 0.2rem;
+	width: 100%;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+	font-size: 0.24rem;
+	line-height: 0.24rem;
+	color: #ff0000;
+}
+/* 修改密码 */
+.pwdEdit {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: white;
+}
+.minTitle {
+	font-size: 0.24rem;
+	line-height: 0.24rem;
+	color: #0099ff;
+	width: 100%;
+	height: 0.8rem;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+	line-height: 0.8rem;
+}
+.inputBox {
+	width: 100%;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+}
+.inputBox > p {
+	height: 0.9rem;
+	border-bottom: 1px solid #dcdcdc;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.inputBox > p > span {
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+}
+.inputBox > p > input {
+	width: 75%;
+	border: none;
+	height: 100%;
+	outline: none;
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+}
+/* 注释 */
+.msgText {
+	width: 100%;
+	height: 0.4rem;
+	line-height: 0.4rem;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+	font-size: 0.24rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #999999;
+}

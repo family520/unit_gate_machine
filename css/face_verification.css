@@ -1,0 +1,134 @@
+.faceBox {
+	width: 100%;
+	height: 100%;
+	background: #F1F1F1;
+}
+/* headerBox样式 */
+.headerBox {
+	width: 100%;
+	height: 0.98rem;
+	background: white;
+	border: solid 0.01rem #eeeeee;
+	position: relative;
+}
+.headerBox img {
+	position: absolute;
+	top: 50%;
+	left: 0.2rem;
+	z-index: 999;
+	transform: translateY(-50%);
+	width: 0.16rem;
+	height: 0.3rem;
+	margin-left: 0.2rem;
+}
+.headerBox p {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	line-height: 0.98rem;
+	text-align: center;
+	font-size: 0.36rem;
+	font-weight: bold;
+	letter-spacing: 0.02rem;
+	color: #333333;
+}
+/* 人脸信息 */
+.faceInfo {
+	width: 6.9rem;
+	height: 1.6rem;
+	margin-top: 0.2rem;
+	margin-left: 0.3rem;
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+}
+.faceInfo .imgBox {
+	width: 1.2rem;
+	height: 1.2rem;
+	margin: 0 0.2rem;
+	border-radius: 50%;
+	box-shadow: 0rem 0rem 0.06rem 0rem 
+		rgba(153, 153, 153, 0.5);
+}
+.faceInfo .imgBox > img {
+	width: 100%;
+	height: 100%;
+}
+.rightFace {
+	width: 65%;
+	height: 100%;
+	margin-left: 0.2rem;
+}
+.rightFace > p {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 0.5rem;
+}
+.rightFace > .oneP > span:nth-child(1) {
+	font-size: 0.36rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: -0.007rem;
+	color: #333333;
+}
+.rightFace > .oneP > span:nth-child(2) {
+	font-size: 0.24rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: -0.005rem;
+	color: #288cef;r: #333333;
+}
+.rightFace > .twoP > span{
+	font-size: 0.24rem;
+	color: #999999;
+}
+.tips {
+	width: 100%;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+	font-size: 0.24rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.6rem;
+	letter-spacing: -0.005rem;
+	color: #ff3333;
+}
+.uploadBox {
+	width: 6.9rem;
+	height: 1.6rem;
+	margin-top: 0.2rem;
+	margin-left: 0.3rem;
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+.uploadBox img {
+	width: 0.4rem;
+	height: 0.32rem;
+	margin: 0 0.1rem;
+}
+.uploadBox span {
+	margin: 0 0.1rem;
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.48rem;
+	letter-spacing: -0.006rem;
+	color: #333333;
+}
+.uploadBox input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: 1px solid red;
+	opacity: 0;
+}

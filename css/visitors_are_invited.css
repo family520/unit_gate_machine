@@ -1,0 +1,353 @@
+.vaiBox {
+	width: 100%;
+	height: 100%;
+	background: #f1f1f1;
+	position: relative;
+}
+/* headerBox样式 */
+.headerBox {
+	width: 100%;
+	height: 0.98rem;
+	background: white;
+	border: solid 0.01rem #eeeeee;
+	position: relative;
+}
+.headerBox img {
+	position: absolute;
+	top: 50%;
+	left: 0.2rem;
+	z-index: 999;
+	transform: translateY(-50%);
+	width: 0.16rem;
+	height: 0.3rem;
+	margin-left: 0.2rem;
+}
+.headerBox p {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	line-height: 0.98rem;
+	text-align: center;
+	font-size: 0.36rem;
+	font-weight: bold;
+	letter-spacing: 0.01rem;
+	color: #333333;
+}
+.headerBox span {
+	position: absolute;
+	right: 0.3rem;
+	top: 0.36rem;
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+}
+/* 访客列表 */
+.vaiList {
+	width: 100%;
+	background: white;
+	margin-top: 0.2rem;
+}
+.vaiListHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 0.2rem;
+	box-sizing: border-box;
+	height: 0.8rem;
+}
+.vaiListHeader span {
+	display: inline-block;
+	border-left: 0.04rem solid #0066ff;
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+	padding-left: 0.1rem;
+}
+.vaiListHeader img {
+	width: 0.17rem;
+	height: 0.3rem;
+	transform: rotate(90deg);
+}
+.listItem {
+	padding: 0 0.3rem;
+}
+.listItem .address {
+	font-size: 0.28rem;
+	color: #666666;
+	line-height: 0.8rem;
+	padding: 0 0.3rem;
+	border-bottom: 1px solid #eeeeee;
+}
+.listInfo {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: 1px solid #eeeeee;
+	height: 1rem;
+}
+.infoBox {
+	height: 100%;
+	padding: 0 0.3rem;
+	line-height: 0.1rem;
+}
+.infoBox .userName {
+	margin-top: 0.2rem;
+	font-size: 0.28rem;
+	color: #666666;
+	line-height: 0.6;
+}
+.infoBox span{
+	display: inline-block;
+	font-size: 0.24rem;
+	color: #999999;
+	line-height: 0;
+}
+.status {
+	font-size: 0.28rem;
+	color: #999999;
+}
+/* 访客记录 */
+.vtrBox {
+	width: 100%;
+	height: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: white;
+	margin-top: 0.3rem;
+	padding: 0 0.2rem;
+	box-sizing: border-box;
+}
+.vtrBox span {
+	display: inline-block;
+	border-left: 0.04rem solid #0066ff;
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0rem;
+	color: #333333;
+	padding-left: 0.1rem;
+}
+.vtrBox img {
+	width: 0.17rem;
+	height: 0.3rem;
+}
+/* 新增邀请 */
+.addVai {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 0.88rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #ffffff;
+	border-radius: 0.01rem;
+}
+.addVai img {
+	width: 0.45rem;
+	height: 0.44rem;
+}
+.addVai span {
+	margin-left: 0.22rem;
+	font-size: 0.28rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.36rem;
+	letter-spacing: 0rem;
+	color: #999999;
+}
+
+/* 新增大盒子 */
+.addvaiBox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #eeeeee;
+	z-index: 2;
+}
+.addItemBox {
+	margin-top: 0.3rem;
+	background: white;
+	width: 100%;
+	padding: 0 0.3rem;
+	box-sizing: border-box;
+}
+.addItemDiv {
+	width: 100%;
+	height: 1rem;
+	line-height: 1rem;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #eeeeee;
+}
+.addItemDiv > .addressName {
+	font-size: 0.34rem;
+	color: #333333;
+}
+.addItemDiv .tagName {
+	font-size: 0.28rem;
+	color: #333333;
+}
+#checkSex {
+	margin-left: 0.2rem;
+	display: flex;
+	align-items: center;
+}
+#checkSex span {
+	display: inline-block;
+	width: 1rem;
+	height: 0.54rem;
+	line-height: 0.54rem;
+	text-align: center;
+	background-color: #ffffff;
+	border-radius: 0.27rem;
+	border: solid 0.02rem #8c8c8c;
+	font-size: 0.28rem;
+	letter-spacing: 0.05rem;
+	color: #999999;
+	margin: 0 0.1rem;
+}
+#checkSex span.active {
+	border: solid 0.02rem #ff6666;
+	color: #ff6666;
+}
+.visitor_name {
+	height: 60%;
+	margin-left: 0.1rem;
+	border: none;
+	outline: none;
+	padding-left: 0.1rem;
+	width:3rem;
+}
+.el-input__inner {
+	border: none;
+}
+/* 底部盒子 */
+.footerBox {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 5.6rem;
+	background: white;
+}
+.footerBox  select {
+	width: 2rem;
+	height: 0.8rem;
+	border: none;
+	outline: none;
+}
+.checkType {
+	margin-top: 0.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 0.3rem;
+}
+.checkType span {
+	font-size: 0.28rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #333333;
+}
+.footerBox button {
+	width: 3.6rem;
+	height: 0.8rem;
+	background-color: #0066ff;
+	border-radius: 0.4rem;
+	font-size: 0.28rem;
+	color: #ffffff;
+	border: none;
+	text-align: center;
+	margin-left:50%;
+	letter-spacing: 0.1rem;
+	transform: translateX(-1.8rem);
+	margin-bottom: 0.4rem;
+}
+/* 新增访客信息页面 */
+.aviInfoBox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+}
+/* 类型盒子 */
+.typeBox {
+	height: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.typeBox img{
+	width: 3.27rem;
+	height: 3.25rem;
+}
+.typeBox p{
+	font-size: 0.6rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.24rem;
+	letter-spacing: 0.5rem;
+	color: #0066ff;
+}
+/* 上传人脸 */
+.faceUpload {
+	width: 3.2rem;
+	height: 3.2rem;
+	position: relative;
+	background-color: #eee;
+}
+.faceUpload .uploadInputBox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999999;
+	width: 100%;
+	height: 100%;
+}
+.faceUpload .uploadInputBox img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1.2rem;
+	height: 0.96rem;
+	z-index: 100;
+	margin-top: 50%;
+	margin-left: 50%;
+	transform: translate(-50%,-50%)
+}
+.faceUpload .uploadInputBox input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99999999;
+	opacity: 0;
+}
+.faceUpload img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+}

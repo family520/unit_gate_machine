@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>呼叫物业</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/require.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../css/call_property.css"/>
+	</head>
+	<body>
+		<div class="callPro" id="callPro">
+			<!-- headerBox -->
+			<div class="headerBox">
+				<img @click="goHome" src="../img/personal_center/returnBlackIcon.png" alt="">
+				<p>呼叫物业</p>
+			</div>
+			<div class="videoBox">
+				<!-- 右上角盒子 -->
+				<div class="rightTopBox">
+					开发说明
+					拍摄信息
+				</div>
+				<!-- videoMenuBox -->
+				<div class="videoMenuBox">
+					<div class="textBox">
+						<p>{{msg}}</p>
+						<p>正在呼叫物业室内机</p>
+					</div>
+					<span class="time">{{str}}</span>
+					<img class="hangUp" @click="goTime" src="../img/call_property/videoOutIcon.png" alt="">
+					<img class="goonIcon" src="../img/call_property/callIcon.png" alt="">
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var call = new Vue({
+				el: "#callPro",
+				data: {
+					msg:'呼叫中...',
+					str: '',
+					h: 0,
+					m: 0,
+					s: 0,
+					time: 0,
+					myTime: ''
+				},
+				methods: {
+					//定义计时函数
+					timer() { 
+						this.s = this.s + 1;
+						if (this.s >= 60) {
+							this.s = 0;
+							this.m = this.m + 1;
+						}
+						if (this.m >= 60) {
+							this.m = 0;
+							this.h = this.h + 1;
+						}
+						this.str = this.toDub(this.h) + ":" + this.toDub(this.m) + ":" + this.toDub(this.s);
+					},
+					//开始
+					goTime() {
+						this.msg = '通话中...';
+						this.time = setInterval(this.timer, 1000);
+					},
+					// 返回主页面
+					goHome() {
+						clearInterval(this.time);
+						this.h = 0;
+						this.m = 0;
+						this.ms = 0;
+						this.s = 0;
+						this.str = "00:00:00";
+						window.location.href = 'home.html';
+					},
+					//暂停
+					stop(){  
+						clearInterval(this.time);
+					},
+					//补0操作
+					toDub(n) { 
+						if (n < 10) {
+							return "0" + n;
+						} else {
+							return "" + n;
+						}
+					}
+				},
+				destroyed() {
+					clearInterval(this.time);
+				}
+			});
+		</script>
+	</body>
+</html>

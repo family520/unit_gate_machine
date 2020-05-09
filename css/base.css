@@ -1,0 +1,22 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+body,html {
+	height: 100%;
+	width: 100%;
+	/* overflow: hidden; */
+}
+button,input {
+	outline: none;
+}
+/* classifyBox样式 */
+.classifyBox {
+	width: 100%;
+	font-size: 0.3rem;
+	color: #333333;
+	padding-left: 0.3rem;
+	margin: 0.2rem 0;
+	font-weight: bold;
+}

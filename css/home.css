@@ -1,0 +1,262 @@
+/* 全局样式 */
+#home {
+	width: 100%;
+	height: 100%;
+	background-color: #FFFFFF;
+}
+/* titleBox样式 */
+.titleBox {
+	width: 100%;
+	height: 5.64rem;
+	background: url(../img/home/titleBj.png) no-repeat;
+	background-size: 100% 100%;
+	padding: 0 0.22rem;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.titleBox .addressBox {
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	margin-top: 0.66rem;
+}
+.titleBox .addressBox > img {
+	width: 0.3rem;
+	height: 0.36rem;
+}
+.titleBox .addressBox > span {
+	font-family: PingFang-SC-Regular;
+	font-size: 0.36rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0.036rem;
+	color: #ffffff;
+	margin-left: 0.2rem;
+}
+/* 搜索样式 */
+.searchBox {
+	margin-top: 0.3rem;
+	width: 100%;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	border-radius: 0.3rem;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	background: rgba(0,0,0,0.2);
+}
+.searchBox > input {
+	width: 100%;
+	height: 0.6rem;
+	background: none;
+	border: none;
+	padding-left: 0.7rem;
+	font-size: 0.26rem;
+	letter-spacing: 0.026rem;
+	color: #ffffff;
+}
+.searchBox > input::-webkit-input-placeholder {
+	color: white;
+	letter-spacing: 0.02rem;
+}
+.searchBox > i {
+	display: inline-block;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0.2rem;
+	width: 0.4rem;
+	height: 0.35rem;
+	background: url(../img/home/searchIcon.png) no-repeat;
+	background-size: 100% 100%;
+}
+/* 温度盒子 */
+.temperatureBox {
+	margin-top: 0.9rem;
+}
+.temperatureBox .oneBox {
+	height: 0.8rem;
+	position: relative;
+}
+.temperatureBox .oneBox span:nth-child(1) {
+	position: absolute;
+	top: 50%;
+	left: 46%;
+	transform: translate(-50%,-50%);
+	display: inline-block;
+	font-family: PingFang-SC-Regular;
+	font-size: 1rem;
+	color: #ffffff;
+}
+.temperatureBox .oneBox span:nth-child(2) {
+	position: absolute;
+	top: 20%;
+	left: 60%;
+	width: 0.2rem;
+	height: 0.2rem;
+	border-radius: 50%;
+	border: solid 0.03rem #ffffff;
+	transform: translate(-50%,-50%);
+	display: inline-block;
+}
+.temperatureBox .oneBox span:nth-child(3) {
+	position: absolute;
+	top: 45%;
+	left: 58%;
+	font-size: 0.24rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.432rem;
+	letter-spacing: 0rem;
+	color: #ffffff;
+}
+.temperatureBox .twoBox {
+	margin-top: 0.3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.temperatureBox .twoBox > span {
+	font-size: 0.278rem;
+	font-weight: bold;
+	font-stretch: normal;
+	line-height: 0.432rem;
+	letter-spacing: 0rem;
+	color: #ffffff;
+	margin: 0 0.1rem;
+}
+.temperatureBox .threeBox {
+	margin-top: 0.3rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.temperatureBox .threeBox > span {
+	font-size: 0.25rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.432rem;
+	letter-spacing: 0rem;
+	color: #ffffff;
+}
+
+/* 新闻盒子 */
+.newsBox {
+	height: 0.6rem;
+	padding: 0 0.38rem;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+.newsBox > img {
+	width: 0.3rem;
+	height: 0.26rem;
+}
+.newsBox > span {
+	margin-left: 0.2rem;
+	width: 6.31rem;
+	font-size: 0.28rem;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 0.432rem;
+	letter-spacing: 0rem;
+	color: #333333;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+/* 手机开门样式 */
+.phone_to_open {
+	padding: 0 0.3rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.phone_to_open  .itemOpen {
+	width: 3.3rem;
+	height: 1rem;
+	background-color: #ffffff;
+	box-shadow: 0rem 0rem 0.1rem 0rem 
+		rgba(2, 2, 2, 0.2);
+	border-radius: 0.1rem;
+	margin-bottom: 0.3rem;
+	display: flex;
+	align-items: center;
+}
+.phone_to_open  .itemOpen .itemLeftBox {
+	width: 2rem;
+	height: 1rem;
+	border-radius: 0.1rem 0rem 0rem 0.1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.phone_to_open  .itemOpen:nth-child(1) .itemLeftBox {
+	background-image: linear-gradient(120deg,
+		#1f95f9 0%, 
+		#46d8ff 100%);
+}
+.phone_to_open  .itemOpen:nth-child(2) .itemLeftBox {
+	background-image: linear-gradient(120deg, 
+		#3bbb3b 0%, 
+		#61dc7e 100%);
+}
+.phone_to_open  .itemOpen:nth-child(3) .itemLeftBox {
+	background-image: linear-gradient(120deg, 
+		#ff4a53 0%, 
+		#ff8087 100%);
+}
+.phone_to_open  .itemOpen .itemOpenName {
+	font-size: 0.3rem;
+	font-weight: normal;
+	font-stretch: normal;
+	letter-spacing: 0.02rem;
+	color: #333333;
+	margin-left: 0.33rem;
+}
+
+.phone_to_open  .itemOpen .itemLeftBox > img {
+	width: 0.4rem;
+	height: 0.44rem;
+	opacity: 0.8;
+}
+.phone_to_open  .itemOpen .itemLeftBox .itemOpenAddress {
+	font-size: 0.24rem;
+	letter-spacing: 0rem;
+	color: #ffffff;
+	margin-left: 0.1rem;
+}
+/* 导航样式 */
+.navBox {
+	width: 100%;
+	padding: 0.3rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.navBox .listItemBox {
+	margin-bottom: 0.2rem;
+	width: 3.3rem;
+	height: 1.6rem;
+	background-color: #ffffff;
+	box-shadow: 0rem 0rem 0.1rem 0rem 
+		rgba(2, 2, 2, 0.2);
+	border-radius: 0.1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.navBox .listItemBox > img {
+	width: 0.8rem;
+	height: 0.8rem;
+}
+.navBox .listItemBox > span {
+	font-size: 0.28rem;
+	font-weight: bold;
+	font-stretch: normal;
+	letter-spacing: 0rem;
+	color: #333333;
+	margin-left: 0.2rem;
+}

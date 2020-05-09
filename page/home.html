@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/require.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/home.css"/>
+	</head>
+	<body>
+		<div id="home">
+			<!-- titleBox -->
+			<div class="titleBox">
+				<!-- 定位地址 -->
+				<div class="addressBox">
+					<img src="../img/home/addressIcon.png" alt="">
+					<span>梦想花园小区</span>
+				</div>
+				<!-- 搜索盒子 -->
+				<div class="searchBox">
+					<i></i>
+					<input type="text" placeholder="请输入搜索信息">
+				</div>
+				<!-- 温度表 -->
+				<div class="temperatureBox">
+					<div class="oneBox">
+						<span style="font-size: 0.76rem;text-align: center;">27</span>
+						<span></span>
+						<span>晴</span>
+					</div>
+					<div class="twoBox">
+						<span>2.5 PM</span>
+						<span>65  良</span>
+					</div>
+					<div class="threeBox">
+						<span>沙坪坝  西园北街</span>
+						<span>2020 - 01 - 01</span>
+					</div>
+				</div>
+			</div>
+			<!-- 新闻盒子 -->
+			<div class="newsBox">
+				<img src="../img/home/newsIcon.png" alt="">
+				<span>据气象部门预测，10月12日至15日，我市将迎来....</span>
+			</div>
+			<!-- titleBox -->
+			<div class="classifyBox">
+				<p>手机开门</p>
+			</div>
+			<!-- 手机开门盒子 -->
+			<div class="phone_to_open">
+				<div class="itemOpen" v-for="open in phoneOpenData" @click="phoneOpen(open)">
+					<div class="itemLeftBox">
+						<img src="../img/personal_center/openIcon.png" alt="">
+						<span class="itemOpenAddress">{{open.address}}</span>
+					</div>
+					<span class="itemOpenName">{{open.openName}}</span>
+				</div>
+			</div>
+			<!-- titleBox -->
+			<div class="classifyBox">
+				<p>常用应用</p>
+			</div>
+			<!-- 菜单List盒子 -->
+			<div class="navBox">
+				<div class="listItemBox" v-for="item in navData" @click="goto(item.path)">
+					<img :src="item.imgUrl" alt="">
+					<span>{{item.name}}</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<!-- Vue绑定数据 -->
+	<script type="text/javascript">
+		var home = new Vue({
+			el: "#home",
+			data:{
+				msg: 'hello joker',
+				// 手机开门数据包
+				phoneOpenData: [
+					{
+						address: '小区入口1',
+						openName: '开门'
+					},
+					{
+						address: '小区入口2',
+						openName: '开门'
+					},
+					{
+						address: '11栋2单元',
+						openName: '开门'
+					}
+				],
+				// 常用应用数据包
+				navData: [
+					{
+						path: 'face_verification.html',
+						imgUrl: '../img/home/faceIcon.png',
+						name: '人脸认证'
+					},
+					{
+						path: 'call_property.html',
+						imgUrl:'../img/home/fjywIcon.png',
+						name: '呼叫物业'
+					},
+					{
+						path: 'call_records.html',
+						imgUrl: '../img/home/djjlIcon.png',
+						name: '通话记录'
+					},
+					{
+						path: 'visitors_are_invited.html',
+						imgUrl: '../img/home/fkyqIcon.png',
+						name: '访客邀请'
+					},
+					{
+						path: 'personal_center.html',
+						imgUrl: '../img/home/myIcon.png',
+						name: '个人中心'
+					}
+				]
+			},
+			methods:{
+				//  手机开门
+				phoneOpen (data) {
+					console.log(data)
+				},
+				// 跳转页面
+				goto (value) {
+					console.log(value);
+					window.location.href = value
+				}
+			}
+		});
+	</script>
+</html>

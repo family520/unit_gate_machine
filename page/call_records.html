@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>通话记录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/require.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../css/base.css" />
+		<link rel="stylesheet" type="text/css" href="../css/call_records.css"/>
+	</head>
+	<body>
+		<div id="callRec">
+			<!-- headerBox -->
+			<div class="headerBox">
+				<img @click="goHome" src="../img/personal_center/returnBlackIcon.png" alt="">
+				<p>通话记录</p>
+			</div>
+			<!-- 分类导航盒子 -->
+			<div class="navBox">
+				<div class="wqBox">
+					<span :class="{active : ind == index}"
+						  @click="categoryStyle(index)"
+					v-for="(item, index) in navList" :key="index">{{item.name}}</span>
+				</div>
+			</div>
+			<!-- 数据列表盒子 -->
+			<div class="listBox">
+				<div class="listItem" v-for="(rec, index) in listData" :key="index">
+					<div class="imgBox">
+						<img :src="rec.userImg" alt="">
+					</div>
+					<div class="testBox">
+						<img class="imgIcon" :src="rec.letImg" alt="">
+						<span class="addressName">{{rec.address}}</span>
+						<p class="timeName">{{rec.time}}</p>
+					</div>
+					<span class="statusName" :style="{'item.status' : '以开门' ? 'color:#0066ff' : 'color:#ff3333'}">{{rec.status}}</span>
+				</div>
+			</div>	
+		</div>
+		<script type="text/javascript">
+			var records = new Vue({
+				el: "#callRec",
+				data:{
+					ind: 0,
+					navList: [
+						{
+							name:'所有通话'
+						},
+						{
+							name:'未接通话'
+						}
+					],
+					listData: [
+						{
+							userImg:'../img/call_records/callUserIcon.png',
+							letImg:'../img/call_records/letIcon1.png',
+							address: 'G栋大厅门',
+							time: '2019/05/29  16:34',
+							status: '以开门'
+						},
+						{
+							userImg:'',
+							letImg:'../img/call_records/letIcon1.png',
+							address: 'G栋大厅门',
+							time: '2019/05/29  16:34',
+							status: '未开门'
+						}
+					]
+				},
+				methods:{
+					// 切换样式
+					categoryStyle(index) {
+						this.ind = index;
+					},
+					// 返回主页面
+					goHome() {
+						window.location.href = 'home.html';
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
