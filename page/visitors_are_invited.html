@@ -105,7 +105,7 @@
 					<!-- 选择类型 -->
 					<div class="checkType">
 						<span>临时密码</span>
-						<select name="" @change="changeProduct($event)">
+						<select name="" id="checkType" @change="changeProduct($event)">
 							<option v-for="(ct,index) in checkedType" :key="index" :value='ct.checkName'>{{ct.checkName}}</option>
 						</select>
 					</div>
@@ -142,6 +142,7 @@
 					yxqTime:'',
 					faceImg:'',
 					isShow:false,
+					selectVal:'',
 					ProductActive:'临时二维码',
 					v_code:'',
 					acsUserAddr: '',
@@ -174,8 +175,17 @@
 					},
 					// 显示访客邀请信息页面
 					aviInfoIsShow() {
-						//提交后台邀请记录 
 						let that = this;
+						//判断信息填写是否完整
+						if(isEmpty(that.visitorName)){
+							alert("请填写访客姓名");
+							return;
+						}
+						if(isEmpty(that.yxqTime)){
+							alert("请填写有效时间");
+							return;
+						}
+						//提交后台邀请记录 
 						let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
 						var formData = new FormData();
 						formData.append('file', $('#uploadIMG')[0].files[0]);
@@ -251,10 +261,13 @@
 						window.location.href = 'home.html'
 					},
 					addVai(){
+						$("#checkType").find("option[value='临时二维码']").attr("selected",true);
+						this.ProductActive = '临时二维码';
 						this.num2Qrcode();
 						this.isShow = true;
 					},
 					num2Qrcode( ){
+						$('#qrcode_id').html("");
 						// 生成二维码
 						var qrcode = new QRCode(document.getElementById("qrcode_id"), {
 							width : 210,//设置宽高
