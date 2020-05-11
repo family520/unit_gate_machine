@@ -7,6 +7,10 @@
 		<script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/require.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/constant.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/utils.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/home.css"/>
 	</head>
@@ -52,12 +56,12 @@
 			</div>
 			<!-- 手机开门盒子 -->
 			<div class="phone_to_open">
-				<div class="itemOpen" v-for="open in phoneOpenData" @click="phoneOpen(open)">
+				<div class="itemOpen" v-for="(open, index) in phoneOpenData" :key="'open'+index" @click="phoneOpen(open)">
 					<div class="itemLeftBox">
 						<img src="../img/personal_center/openIcon.png" alt="">
-						<span class="itemOpenAddress">{{open.address}}</span>
+						<span class="itemOpenAddress">{{open.deviceName}}</span>
 					</div>
-					<span class="itemOpenName">{{open.openName}}</span>
+					<span class="itemOpenName">开门</span>
 				</div>
 			</div>
 			<!-- titleBox -->
@@ -81,46 +85,18 @@
 				msg: 'hello joker',
 				// 手机开门数据包
 				phoneOpenData: [
-					{
-						address: '小区入口1',
-						openName: '开门'
-					},
-					{
-						address: '小区入口2',
-						openName: '开门'
-					},
-					{
-						address: '11栋2单元',
-						openName: '开门'
-					}
+					// {
+					// 	address: '小区入口1',
+					// 	openName: '开门'
+					// },
 				],
 				// 常用应用数据包
 				navData: [
-					{
-						path: 'face_verification.html',
-						imgUrl: '../img/home/faceIcon.png',
-						name: '人脸认证'
-					},
-					{
-						path: 'call_property.html',
-						imgUrl:'../img/home/fjywIcon.png',
-						name: '呼叫物业'
-					},
-					{
-						path: 'call_records.html',
-						imgUrl: '../img/home/djjlIcon.png',
-						name: '通话记录'
-					},
-					{
-						path: 'visitors_are_invited.html',
-						imgUrl: '../img/home/fkyqIcon.png',
-						name: '访客邀请'
-					},
-					{
-						path: 'personal_center.html',
-						imgUrl: '../img/home/myIcon.png',
-						name: '个人中心'
-					}
+					// {
+					// 	path: 'face_verification.html',
+					// 	imgUrl: '../img/home/faceIcon.png',
+					// 	name: '人脸认证'
+					// },
 				]
 			},
 			methods:{
@@ -132,7 +108,80 @@
 				goto (value) {
 					console.log(value);
 					window.location.href = value
-				}
+				},
+				// 获取手机开门数据包方法
+				getPhoneOpenData(){
+					let that = this
+					// 设置调用接口参数
+					// let userInfo = getUserInfo();
+					// alert("userinfo--"+userInfo);
+					// 调用接口
+					$.ajax({
+						url: getServerUrl()+"unAuth/userinfo/selAcsUserInfo",
+						data: {userPhone: '13308085745'},
+						// 18922233388  13308085745
+						// data: {userPhone: userInfo.userCellphoneNo},
+						dataType: 'json',
+						type: 'post',
+						async:false,
+						success: function(data){
+							if(data.resultCode === '1'){
+								if(data.resultContent.length>0 ){
+									console.log(data.resultContent[0]);
+									let jsonS = JSON.stringify(data.resultContent[0]);
+									console.log(jsonS);
+									sessionStorage.setItem('acsUserInfo', jsonS); 
+									that.phoneOpenData = data.resultContent[0].deviceList;
+									that.getNavData();
+								}else{
+									alert('未找到您的门禁信息,请联系管理人员添加');
+								}
+								console.log(data.resultContent);
+							}else{
+								alert(data.resultDesc);
+							}
+						},
+						error : function(){
+							alert('获取用户门禁信息失败');
+						}
+					});
+					// 设置数据
+				},
+				// 常用应用数据包方法
+				getNavData(){
+					let that = this
+					that.navData = [
+						{
+							path: 'face_verification.html',
+							imgUrl: '../img/home/faceIcon.png',
+							name: '人脸认证'
+						},
+						{
+							path: 'call_property.html',
+							imgUrl:'../img/home/fjywIcon.png',
+							name: '呼叫物业'
+						},
+						{
+							path: 'call_records.html',
+							imgUrl: '../img/home/djjlIcon.png',
+							name: '通话记录'
+						},
+						{
+							path: 'visitors_are_invited.html',
+							imgUrl: '../img/home/fkyqIcon.png',
+							name: '访客邀请'
+						},
+						{
+							path: 'personal_center.html',
+							imgUrl: '../img/home/myIcon.png',
+							name: '个人中心'
+						}
+					];
+				},
+			},
+			created(){
+				// 获取手机开门数据包
+				this.getPhoneOpenData()
 			}
 		});
 	</script>

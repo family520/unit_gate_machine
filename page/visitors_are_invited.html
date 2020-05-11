@@ -9,6 +9,10 @@
 		<script src="../js/elementUI.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/require.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/qrcode.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/constant.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/utils.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/visitors_are_invited.css"/>
 	</head>
@@ -26,7 +30,7 @@
 					<img src="../img/personal_center/nextIcon.png" alt="">
 				</div>
 				<div class="listItem">
-					<p class="address">星宇城一期  1-10-05</p>
+					<p class="address">{{acsUserAddr}} </p>
 					<div class="listInfo">
 						<div class="infoBox">
 							<p class="userName">杨先生</p>
@@ -62,11 +66,11 @@
 				</div>
 				<div class="addItemBox">
 					<div class="addItemDiv">
-						<p class="addressName">星宇城一期  1-10-05</p>
+						<p class="addressName">{{acsUserAddr}} </p>
 					</div>
 					<div class="addItemDiv">
 						<span class="tagName">访客姓名</span>
-						<input class="visitor_name" type="text" placeholder="请输入">
+						<input class="visitor_name" v-model="visitorName" type="text" placeholder="请输入">
 						<span id="checkSex">
 							<span :class="{active : ind == index}"
 								@click="categoryStyle(index)"
@@ -91,7 +95,8 @@
 							style="margin-left: 0.2rem;"
 							v-model="yxqTime"
 							type="datetime"
-							placeholder="选择日期时间">
+							placeholder="选择日期时间"
+							value-format="yyyy-MM-dd HH:mm:ss" format="yyyy-MM-dd HH:mm:ss">
 						</el-date-picker>
 					</div>
 				</div>
@@ -106,9 +111,10 @@
 					</div>
 					<div class="typeBox">
 						<!-- 二维码 -->
-						<img v-show="this.ProductActive == '临时二维码'" src="../img/visitors_are_invited/Qr_codeIcon.png" alt="">
+						<div v-show="this.ProductActive == '临时二维码'" id="qrcode_id" ></div>
+						<!-- <img v-show="this.ProductActive == '临时二维码'" :src="v_qrcode" id="qrcode_id" alt=""> -->
 						<!-- 随机数字 -->
-						<p v-show="this.ProductActive == '临时数字密码'">005200</p>
+						<p v-show="this.ProductActive == '临时数字密码'">{{v_code}}</p>
 						<!-- 上传人脸 -->
 						<div class="faceUpload" v-show="this.ProductActive == '临时人脸识别'">
 							<div class="uploadInputBox">
@@ -132,10 +138,15 @@
 				el:"#vaiBox",
 				data:{
 					ind: 0,
+					visitorName: '',
 					yxqTime:'',
 					faceImg:'',
 					isShow:false,
 					ProductActive:'临时二维码',
+					v_code:'',
+					acsUserAddr: '',
+					// v_qrcode: '../img/visitors_are_invited/Qr_codeIcon.png',
+					v_qrcode: '',
 					checkSex:[
 						{
 							name:'女士'
@@ -163,14 +174,60 @@
 					},
 					// 显示访客邀请信息页面
 					aviInfoIsShow() {
-						this.isShow = false;
+						//提交后台邀请记录 
+						let that = this;
+						let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
+						var formData = new FormData();
+						formData.append('file', $('#uploadIMG')[0].files[0]);
+						formData.append('operatorId', acsUserInfo.userId);
+						formData.append('operatorName', acsUserInfo.userName);
+						formData.append('visitorName', that.visitorName);
+						formData.append('recordInfo', that.v_code);
+						formData.append('listenedTime', that.yxqTime);
+						formData.append('type', that.inviteType2Num(that.ProductActive));
+						console.log(formData);
+						$.ajax({
+							url: getServerUrl()+'unAuth/userinfo/addAcsCodeLog',
+							type: 'POST',
+							data: formData,
+							contentType: false,  
+							processData: false,
+							success:function(res){
+								if (res.resultCode === '1'){
+									console.log(res);
+									that.listData = res.resultContent.data;
+								}else {
+									alert( res.resultDesc );
+								}
+							},
+						});
+
+						that.isShow = false;
 					},
+					//切换邀请方式
 					changeProduct(event) {
 						$("#showIMG").attr("src",'');
 						$(".uploadIcon").attr('src','../img/face_verification/uploadIcon.png')
 						this.ProductActive = event.target.value;
 						console.log("你选中了",this.ProductActive);
+						if(this.ProductActive == '临时数字密码'){
+							this.v_code = this.randomPassword(6,'num');
+						}else if(this.ProductActive == '临时二维码'){
+							this.num2Qrcode()
+						}
 					},
+					//邀请方式文字转换为数字
+					inviteType2Num(type){
+						switch(type){
+							case '临时二维码':
+								return '3';
+							case '临时数字密码':
+								return '4';
+							case '临时人脸识别':
+								return '5';
+						}
+					},
+
 					btnUploadFile(e,type){
 						//获取图片
 						var files = e.target.files;
@@ -194,8 +251,44 @@
 						window.location.href = 'home.html'
 					},
 					addVai(){
+						this.num2Qrcode();
 						this.isShow = true;
+					},
+					num2Qrcode( ){
+						// 生成二维码
+						var qrcode = new QRCode(document.getElementById("qrcode_id"), {
+							width : 210,//设置宽高
+							height : 210
+						});
+						this.v_code = this.randomPassword(12,'all');
+						console.log('v_code:'+this.v_code );
+						qrcode.makeCode(this.v_code);
+					},
+					randomPassword(size,type){
+						var seed;
+						if(type == 'num' ){
+							seed = new Array('0','1','2','3','4','5','6','7','8','9');//数组
+						}else{
+							seed = new Array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z',
+							'a','b','c','d','e','f','g','h','i','j','k','m','n','p','Q','r','s','t','u','v','w','x','y','z','0','1',
+							'2','3','4','5','6','7','8','9'
+							);//数组
+						}
+						seedlength = seed.length;//数组长度
+						var createPassword = '';
+						for (i=0;i<size;i++) {
+							j = Math.floor(Math.random()*seedlength);
+							createPassword += seed[j];
+						}
+						return createPassword;
 					}
+
+				},
+				created(){
+					let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
+					this.acsUserAddr = acsUserInfo.userBlockName+'-'+acsUserInfo.userRoomName;
+					// 初始化随机二维码
+					this.num2Qrcode()
 				}
 			});
 		</script>
