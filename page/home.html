@@ -102,7 +102,9 @@
 			methods:{
 				//  手机开门
 				phoneOpen (data) {
-					console.log(data)
+					$.get(getServerUrl()+'accessDevice/openDoor',{mac:data},function (res) {
+						console.log(res)
+					})
 				},
 				// 跳转页面
 				goto (value) {
