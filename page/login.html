@@ -6,6 +6,10 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 		<script src="../js/vue.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/constant.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/utils.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/login.css"/>
 	</head>
@@ -55,6 +59,35 @@
 				},
 				methods: {
 					loginGo () {
+						// 访问登录接口
+						$.ajax({
+							url:getServerUrl()+ '/unLogin/login',
+							type: "post",
+							dataType: "json",
+							async: false,
+							contentType: 'application/json',
+							data: JSON.stringify({
+									'data': {
+										'userAccount':'admin',
+										'userPassword':'123456'
+									}
+								}
+							),
+							beforeSend: function(xhr) {
+								xhr.withCredentials = true;
+								xhr.setRequestHeader("X-Requested-With","XMLHttpRequest");
+							},
+							crossDomain:true,
+							success: function (res) {
+								console.log(res);
+								if (res.status == 200) {
+									sessionStorage.setItem('token', res.data); 
+								} else {
+									layer.msg(res.msg)
+								}
+							}
+						});
+						
 						if (this.userName == 'admin' && this.password == '123456') {
 							window.location.href = 'home.html'
 						}

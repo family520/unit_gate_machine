@@ -98,7 +98,7 @@ function setStorage(keyStr, valStr){
 function getStorage(keyStr){
     var vals = [keyStr];
     // var result = callNativeFunction(GET_STORAGE_NAME, vals);
-    var result = '111';
+    var result = sessionStorage.getItem('token');
     console.info(result)
     return result;
 }
