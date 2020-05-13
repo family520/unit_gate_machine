@@ -30,19 +30,19 @@
 				</div>
 				<!-- 温度表 -->
 				<div class="temperatureBox">
-					<div class="oneBox">
-						<span style="font-size: 0.76rem;text-align: center;">27</span>
-						<span></span>
-						<span>晴</span>
-					</div>
-					<div class="twoBox">
-						<span>2.5 PM</span>
-						<span>65  良</span>
-					</div>
-					<div class="threeBox">
-						<span>沙坪坝  西园北街</span>
-						<span>2020 - 01 - 01</span>
-					</div>
+          <div class="oneBox">
+            <span style="font-size: 0.76rem;text-align: center;">{{weatherInfo.temp}}</span>
+            <span></span>
+            <span>{{weatherInfo.condition}}</span>
+          </div>
+          <div class="twoBox">
+            <span>2.5 PM</span>
+            <span>{{weatherInfo.pm}}  {{weatherInfo.pmValue}}</span>
+          </div>
+          <div class="threeBox">
+            <span>沙坪坝  西园北街</span>
+            <span>{{weatherInfo.date}}</span>
+          </div>
 				</div>
 			</div>
 			<!-- 新闻盒子 -->
@@ -79,10 +79,18 @@
 	</body>
 	<!-- Vue绑定数据 -->
 	<script type="text/javascript">
-		var home = new Vue({
+		let home = new Vue({
 			el: "#home",
 			data:{
 				msg: 'hello joker',
+        //天气信息
+        weatherInfo:{
+          temp:27,
+          condition:'晴',
+          pm:'65',
+          pmValue:'良',
+          date:'05月21号'
+        },
 				// 手机开门数据包
 				phoneOpenData: [
 					// {
@@ -122,7 +130,7 @@
 					window.location.href = value
 				},
 				// 获取手机开门数据包方法
-				getPhoneOpenData(){
+				getPhoneOpenData() {
 					let that = this
 					// 设置调用接口参数
 					// let userInfo = getUserInfo();
@@ -146,7 +154,7 @@
 									console.log(data.resultContent[0]);
 									let jsonS = JSON.stringify(data.resultContent[0]);
 									console.log(jsonS);
-									sessionStorage.setItem('acsUserInfo', jsonS); 
+									sessionStorage.setItem('acsUserInfo', jsonS);
 									that.phoneOpenData = data.resultContent[0].deviceList;
 									that.getNavData();
 								}else{
@@ -164,7 +172,7 @@
 					// 设置数据
 				},
 				// 常用应用数据包方法
-				getNavData(){
+				getNavData() {
 					let that = this
 					that.navData = [
 						{
@@ -201,4 +209,67 @@
 			}
 		});
 	</script>
+  <!-- 根据IP获取实时天气数据 -->
+  <script type="text/javascript">
+    $(function() {
+      window.onload = function() {
+        dynamicIp();
+      };
+      function dynamicIp(){
+        $.ajax({
+          // JsonBird 根据查询ip地址
+          url: 'https://bird.ioliu.cn/ip',
+          type: 'get',
+          dataType: 'jsonp',
+          success:function(data){
+            console.log(data);
+            let cityip = data.data.ip;
+            getWeather(cityip);
+          }
+        })
+      }
+
+      function getWeather(cityip) {
+        $.ajax({
+          // 百度首页的天气接口地址
+          url: 'https://www.baidu.com/home/other/data/weatherInfo?ip='+cityip,
+          type: 'get',
+          dataType: 'jsonp',
+          success:function(data){
+            console.log(data);
+            var info = data.data.weather.content.today;
+            var temp = info.temp.toString();
+            console.log(temp);
+            var str = temp.substring(0, temp.length - 1);
+            home.weatherInfo.temp = str;
+            var pm = info.pm25;
+            if(pm > 0 && pm < 50){
+              console.log("优");
+              home.weatherInfo.pmValue = "优";
+            }else if(pm > 51 && pm < 100) {
+              console.log("良");
+              home.weatherInfo.pmValue = "良";
+            }else if(pm > 101 && pm < 150) {
+              console.log("轻度");
+              home.weatherInfo.pmValue = "轻度";
+            }else if(pm > 150 && pm < 200) {
+              console.log("中度");
+              home.weatherInfo.pmValue = "中度";
+            }else if(pm > 201 && pm < 300) {
+              console.log("重度");
+              home.weatherInfo.pmValue = "重度";
+            }else if(pm > 300) {
+              console.log("严重");
+              home.weatherInfo.pmValue = "严重";
+            }
+            home.weatherInfo.pm = pm;
+            home.weatherInfo.date = info.date;
+            home.weatherInfo.condition = info.condition;
+            // 根据IP获取地址  但是只能获取到一级城市的地址
+            let ipCity = data.data.weather.content.ipcity;
+          }
+        })
+      }
+    })
+  </script>
 </html>
