@@ -97,7 +97,8 @@ function setStorage(keyStr, valStr){
 //返回值为字符串类型
 function getStorage(keyStr){
     var vals = [keyStr];
-    var result = callNativeFunction(GET_STORAGE_NAME, vals);
+    // var result = callNativeFunction(GET_STORAGE_NAME, vals);
+    var result = '111';
     console.info(result)
     return result;
 }
