@@ -31,26 +31,31 @@
 				</div>
 				<div class="listItem">
 					<p class="address">{{acsUserAddr}} </p>
-					<div class="listInfo">
+					<div class="listInfo" v-for="(rec, index) in listData" :key="index">
 						<div class="infoBox">
-							<p class="userName">杨先生</p>
-							<span>有效期：2019年07月23日  18:00</span>
-						</div>
-						<span class="status">未到访</span>
-					</div>
-					<div class="listInfo">
-						<div class="infoBox">
-							<p class="userName">杨先生</p>
-							<span>有效期：2019年07月23日  18:00</span>
+							<p class="userName">{{rec.visitorName}}</p>
+							<span>有效期：{{rec.listenedTime}}</span>
 						</div>
 						<span class="status">未到访</span>
 					</div>
 				</div>
 			</div>
 			<!-- 访客记录 -->
-			<div class="vtrBox">
-				<span>邀请记录</span>
-				<img src="../img/personal_center/nextIcon.png" alt="">
+			<div class="vaiList">
+				<div class="vaiListHeader">
+					<span>邀请记录</span>
+					<img src="../img/personal_center/nextIcon.png" alt="">
+				</div>
+				<div class="listItem">
+					<!-- <p class="address">{{acsUserAddr}} </p> -->
+					<div class="listInfo" v-for="(rec, index) in listDataUsed" :key="index">
+						<div class="infoBox">
+							<p class="userName">{{rec.visitorName}}</p>
+							<span>有效期：{{rec.listenedTime}}</span>
+						</div>
+						<span class="status">已到访</span>
+					</div>
+				</div>
 			</div>
 			<!-- 新增邀请 -->
 			<div class="addVai" @click="addVai">
@@ -166,7 +171,19 @@
 						{
 							checkName:'临时人脸识别'
 						}
-					]
+					],
+					listData: [
+						// {
+						// 	visitorName: '访客姓名',
+						// 	listenedTime: '2019/05/29  16:34',
+						// },
+					],
+					listDataUsed: [
+						// {
+						// 	visitorName: '访客姓名1',
+						// 	listenedTime: '2019/05/29  16:34',
+						// },
+					],
 				},
 				methods:{
 					// 切换样式
@@ -294,6 +311,34 @@
 							createPassword += seed[j];
 						}
 						return createPassword;
+					},
+
+					//查询邀请记录
+					selInviteLog(page,limit,state,uid){
+						let that = this;
+						$.ajax({
+							url: getServerUrl()+'unAuth/userinfo/getTable',
+							type: 'POST',
+							data: {page: page,
+								limit: limit,
+								recordType: '6',
+								state: state,
+								deviceId: uid },
+							dataType: 'json',
+							success:function(res){
+								if (res.resultCode === '1'){
+									console.log(res);
+									if(state === 1 ){
+										that.listData = res.resultContent.data;
+									}else{
+										that.listDataUsed  = res.resultContent.data;
+									}
+								}else {
+									alert( res.resultDesc );
+								}
+							},
+						});
+
 					}
 
 				},
@@ -301,7 +346,9 @@
 					let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
 					this.acsUserAddr = acsUserInfo.userBlockName+'-'+acsUserInfo.userRoomName;
 					// 初始化随机二维码
-					this.num2Qrcode()
+					this.num2Qrcode();
+					this.selInviteLog(1,10,1,acsUserInfo.userId );
+					this.selInviteLog(1,10,2,acsUserInfo.userId );
 				}
 			});
 		</script>
