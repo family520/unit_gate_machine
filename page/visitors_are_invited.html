@@ -213,10 +213,14 @@
 						formData.append('listenedTime', that.yxqTime);
 						formData.append('type', that.inviteType2Num(that.ProductActive));
 						console.log(formData);
+						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'unAuth/userinfo/addAcsCodeLog',
+							url: getServerUrl()+'app/userinfo/addAcsCodeLog',
 							type: 'POST',
 							data: formData,
+							headers: {
+								token: htoken
+							},
 							contentType: false,  
 							processData: false,
 							success:function(res){
@@ -316,9 +320,13 @@
 					//查询邀请记录
 					selInviteLog(page,limit,state,uid){
 						let that = this;
+						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'unAuth/userinfo/getTable',
+							url: getServerUrl()+'app/userinfo/getTable',
 							type: 'POST',
+							headers: {
+								token: htoken
+							},
 							data: {page: page,
 								limit: limit,
 								recordType: '6',

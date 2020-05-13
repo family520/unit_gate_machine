@@ -102,9 +102,19 @@
 			methods:{
 				//  手机开门
 				phoneOpen (data) {
-					$.get(getServerUrl()+'accessDevice/openDoor',{mac:data},function (res) {
-						console.log(res)
-					})
+					let htoken = getStorage("token");
+					$.ajax({
+						url: getServerUrl()+'accessDevice/openDoor',
+						type: 'get',
+						headers: {
+							token: htoken
+						},
+						data: {mac:data },
+						dataType: 'json',
+						success:function(res){
+							console.log(res)
+						},
+					});
 				},
 				// 跳转页面
 				goto (value) {
@@ -118,9 +128,13 @@
 					// let userInfo = getUserInfo();
 					// alert("userinfo--"+userInfo);
 					// 调用接口
+					let htoken = getStorage("token");
 					$.ajax({
-						url: getServerUrl()+"unAuth/userinfo/selAcsUserInfo",
+						url: getServerUrl()+"app/userinfo/selAcsUserInfo",
 						data: {userPhone: '13308085745'},
+						headers: {
+								token: htoken
+							},
 						// 18922233388  13308085745
 						// data: {userPhone: userInfo.userCellphoneNo},
 						dataType: 'json',

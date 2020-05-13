@@ -88,9 +88,13 @@
 					// 获取分页通话记录
 					getCallRecards(page,limit,listenType ){
 						let that = this;
+						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'unAuth/userinfo/getTable',
+							url: getServerUrl()+'app/userinfo/getTable',
 							type: 'POST',
+							headers: {
+								token: htoken
+							},
 							data: {page: page,
 								limit: limit,
 								recordType: '2',

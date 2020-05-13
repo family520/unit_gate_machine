@@ -81,9 +81,13 @@
 						formData.append('file', file);
 						formData.append('userId', that.acsUID);
 						console.log(formData);
+						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'unAuth/userinfo/upAcsUserFace',
+							url: getServerUrl()+'app/userinfo/upAcsUserFace',
 							type: 'POST',
+							headers: {
+								token: htoken
+							},
 							data: formData,
 							contentType: false, //jax 中 contentType 设置为 false 是为了避免 JQuery 对其操作，从而失去分界符，而使服务器不能正常解析文件
 							processData: false,
