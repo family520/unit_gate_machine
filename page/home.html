@@ -104,7 +104,7 @@
 				phoneOpen (data) {
 					let htoken = getStorage("token");
 					$.ajax({
-						url: getServerUrl()+'accessDevice/openDoor',
+						url: getServerUrl()+'/accessDevice/openDoor',
 						type: 'get',
 						headers: {
 							token: htoken
@@ -124,19 +124,39 @@
 				// 获取手机开门数据包方法
 				getPhoneOpenData(){
 					let that = this
-					// 设置调用接口参数
-					// let userInfo = getUserInfo();
-					// alert("userinfo--"+userInfo);
-					// 调用接口
 					let htoken = getStorage("token");
+					// 设置调用接口参数
 					$.ajax({
-						url: getServerUrl()+"app/userinfo/selAcsUserInfo",
-						data: {userPhone: '13308085745'},
+						url: getServerUrl()+"/app/userinfo/getLogUser",
 						headers: {
 								token: htoken
 							},
+						dataType: 'json',
+						type: 'post',
+						async:false,
+						success: function(data){
+							if(data.resultCode === '1'){
+								alert(data.resultContent);
+								sessionStorage.setItem('userInfo', data.resultContent); 
+							}else{
+								alert(data.resultDesc);
+							}
+						},
+						error : function(){
+							alert('获取用户登录信息失败');
+						}
+					});
+					// 调用接口
+					let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+					
+					$.ajax({
+						url: getServerUrl()+"/app/userinfo/selAcsUserInfo",
+						// data: {userPhone: '13308085745'},
 						// 18922233388  13308085745
-						// data: {userPhone: userInfo.userCellphoneNo},
+						data: {userPhone: userInfo.userCellphoneNo},
+						headers: {
+								token: htoken
+							},
 						dataType: 'json',
 						type: 'post',
 						async:false,

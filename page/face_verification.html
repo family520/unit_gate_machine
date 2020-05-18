@@ -83,7 +83,7 @@
 						console.log(formData);
 						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'app/userinfo/upAcsUserFace',
+							url: getServerUrl()+'/app/userinfo/upAcsUserFace',
 							type: 'POST',
 							headers: {
 								token: htoken

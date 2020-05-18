@@ -215,7 +215,7 @@
 						console.log(formData);
 						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'app/userinfo/addAcsCodeLog',
+							url: getServerUrl()+'/app/userinfo/addAcsCodeLog',
 							type: 'POST',
 							data: formData,
 							headers: {
@@ -322,7 +322,7 @@
 						let that = this;
 						let htoken = getStorage("token");
 						$.ajax({
-							url: getServerUrl()+'app/userinfo/getTable',
+							url: getServerUrl()+'/app/userinfo/getTable',
 							type: 'POST',
 							headers: {
 								token: htoken
