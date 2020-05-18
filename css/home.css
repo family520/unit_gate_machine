@@ -177,7 +177,7 @@
 	width: 3.3rem;
 	height: 1rem;
 	background-color: #ffffff;
-	box-shadow: 0rem 0rem 0.1rem 0rem 
+	box-shadow: 0rem 0rem 0.1rem 0rem
 		rgba(2, 2, 2, 0.2);
 	border-radius: 0.1rem;
 	margin-bottom: 0.3rem;
@@ -194,17 +194,17 @@
 }
 .phone_to_open  .itemOpen:nth-child(1) .itemLeftBox {
 	background-image: linear-gradient(120deg,
-		#1f95f9 0%, 
+		#1f95f9 0%,
 		#46d8ff 100%);
 }
 .phone_to_open  .itemOpen:nth-child(2) .itemLeftBox {
-	background-image: linear-gradient(120deg, 
-		#3bbb3b 0%, 
+	background-image: linear-gradient(120deg,
+		#3bbb3b 0%,
 		#61dc7e 100%);
 }
 .phone_to_open  .itemOpen:nth-child(3) .itemLeftBox {
-	background-image: linear-gradient(120deg, 
-		#ff4a53 0%, 
+	background-image: linear-gradient(120deg,
+		#ff4a53 0%,
 		#ff8087 100%);
 }
 .phone_to_open  .itemOpen .itemOpenName {
@@ -226,6 +226,12 @@
 	letter-spacing: 0rem;
 	color: #ffffff;
 	margin-left: 0.1rem;
+    display: inline-block;
+    width: 1.2rem;
+    text-align: center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
 }
 /* 导航样式 */
 .navBox {
@@ -241,7 +247,7 @@
 	width: 3.3rem;
 	height: 1.6rem;
 	background-color: #ffffff;
-	box-shadow: 0rem 0rem 0.1rem 0rem 
+	box-shadow: 0rem 0rem 0.1rem 0rem
 		rgba(2, 2, 2, 0.2);
 	border-radius: 0.1rem;
 	display: flex;
