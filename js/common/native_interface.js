@@ -44,8 +44,8 @@ function showBottomToast(msgStr){
 //获取服务端地址
 //返回值为字符串类型
 function getServerUrl(){
-    var result = callNativeFunction(GET_SERVER_URL_NAME, []);//打包用
-    // var result = 'http://103.239.204.50:11650/'; //测试用
+    // var result = callNativeFunction(GET_SERVER_URL_NAME, []);//打包用
+    var result = 'http://103.239.204.50:11650/'; //测试用
     // var result = 'http://localhost:20012/'; //本地用
     console.info(result)
     return result;
@@ -97,8 +97,8 @@ function setStorage(keyStr, valStr){
 //返回值为字符串类型
 function getStorage(keyStr){
     var vals = [keyStr];
-    var result = callNativeFunction(GET_STORAGE_NAME, vals); //打包用
-    // var result = sessionStorage.getItem('token'); //测试用
+    // var result = callNativeFunction(GET_STORAGE_NAME, vals); //打包用
+    var result = sessionStorage.getItem('token'); //测试用
     console.info(result)
     return result;
 }
