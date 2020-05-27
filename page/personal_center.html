@@ -25,8 +25,8 @@
 					<!-- 编辑按钮 -->
 					<img @click="goto(2)" class="editIcon" src="../img/personal_center/editIcon.png" alt="">
 					<!-- 头像 -->
-					<img class="userIcon" src="../img/personal_center/userIcon.png" alt="">
-					<span class="userName">{{userName}}</span>
+					<img class="userIcon" :src="userInfo.userImg" alt="">
+					<span class="userName">{{userInfo.userName}}</span>
 				</div>
 				<!-- 基本信息 -->
 				<div class="userInfoBox">
@@ -42,7 +42,7 @@
 							<img src="../img/personal_center/buildingIcon.png" alt="">
 							<span>楼栋房间</span>
 						</span>
-						<span class="textName">1栋2单元 0501</span>
+						<span class="textName">{{userInfo.userRoomName}}</span>
 					</div>
 					<div class="userListBox">
 						<span class="leftBox">
@@ -57,7 +57,7 @@
 							<span>手机号</span>
 						</span>
 						<span class="rightBox">
-							<span class="textName">132****2356</span>
+							<span class="textName">{{userInfo.userPhone}}</span>
 							<img src="../img/personal_center/nextIcon.png" alt="">
 						</span>
 					</div>
@@ -91,14 +91,14 @@
 						<p>
 							<span class="leftName">头像</span>
 							<span class="rightMinBox">
-								<img src="../img/personal_center/userIcon.png" alt="">
+								<img :src="userInfo.userImg" alt="">
 								<img src="../img/personal_center/nextIcon.png" alt="">
 							</span>
 						</p>
 						<p style="padding: 0.3rem;" @click="goto(4)">
 							<span class="leftName">昵称</span>
 							<span class="rightMinBox">
-								<span>{{userName}}</span>
+								<span>{{userInfo.userName}}</span>
 								<img src="../img/personal_center/nextIcon.png" alt="">
 							</span>
 						</p>
@@ -111,7 +111,7 @@
 							<span style="margin-left: 4.3rem;" @click="goto(6)">保存</span>
 						</div>
 						<div class="nameEdit">
-							<input type="text" :value="editName">
+							<input type="text" :value="userInfo.userName">
 							<img src="../img/personal_center/nextIcon.png" alt="">
 						</div>
 					</div>
@@ -132,11 +132,11 @@
 						</p>
 						<p>
 							<span>+86</span>
-							<input type="" name="" id="" v-model="oldTel" placeholder="请输入您的手机号"/>
+							<input type="" name="" v-model="oldTel" placeholder="请输入您的手机号"/>
 						</p>
 						<p>
 							<span>确认手机号</span>
-							<input type="" name="" id="" v-model="newTel" placeholder="请输入您的手机号"/>
+							<input type="" name="" v-model="newTel" placeholder="请输入您的手机号"/>
 						</p>
 					</div>
 					<p class="errorBox">{{errorMsg}}</p>
@@ -189,9 +189,19 @@
 						newTel: '',
 						oldPwd:'',
 						newPwd:'',
-						surePwd:''
+						surePwd:'',
+            userInfo:{
+              userName:'',
+              userRoomName:'',
+              userPhone:'',
+              userImg:''
+            }
 					}
 				},
+        created(){
+          // 初始化用户信息
+          this.initeImgInfo();
+        },
 				methods:{
 					// 跳转页面
 					goto (value) {
@@ -207,7 +217,7 @@
 						}else if (value == 5) {
 							this.isShow1 = false
 						}else if (value == 6) {
-							this.userName = this.editName
+							this.userName = this.editName;
 							this.isShow1 = false
 						}else if (value == 7) {
 							this.isShow = true,
@@ -245,7 +255,21 @@
 							}
 						}
 					},
-					
+          // 获取用户信息
+          initeImgInfo() {
+            let that = this;
+            console.log(JSON.parse(sessionStorage.getItem('acsUserInfo')));
+            let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
+            if (sessionStorage.acsUserInfo) {
+              that.userInfo.userPhone = acsUserInfo.userPhone;
+              that.userInfo.userName = acsUserInfo.userName;
+              that.userInfo.userRoomName = acsUserInfo.userRoomName;
+              that.userInfo.userImg = 'data:image/jpeg;base64,' + acsUserInfo.userFaceInfo;
+              that.acsUID = acsUserInfo.userId
+            } else {
+              alert("无门禁用户信息，请重新登录");
+            }
+          }
 				}
 			});
 		</script>

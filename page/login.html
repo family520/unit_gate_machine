@@ -81,18 +81,19 @@
 							success: function (res) {
 								console.log(res);
 								if (res.status == 200) {
-									sessionStorage.setItem('token', res.data); 
+									sessionStorage.setItem('token', res.data);
+                  window.location.href = 'home.html'
 								} else {
 									layer.msg(res.msg)
 								}
 							}
 						});
-						
-						if (this.userName == 'admin' && this.password == '123456') {
-							window.location.href = 'home.html'
-						}else {
-              window.location.href = 'login.html'
-            }
+
+						// if (this.userName == 'admin' && this.password == '123456') {
+						// 	window.location.href = 'home.html'
+						// }else {
+            //   window.location.href = 'login.html'
+            // }
 					}
 				}
 			});

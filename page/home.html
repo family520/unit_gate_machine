@@ -75,6 +75,13 @@
 					<span>{{item.name}}</span>
 				</div>
 			</div>
+      <!-- 手机开门弹框 -->
+      <div class="maxTemBox" v-show="isOpen">
+        <div class="telTemBox">
+          <h3>{{openValue}}</h3>
+          <button @click="isOpenFuc">确定</button>
+        </div>
+      </div>
 		</div>
 	</body>
 	<!-- Vue绑定数据 -->
@@ -83,6 +90,8 @@
 			el: "#home",
 			data:{
 				msg: 'hello joker',
+        openValue:'开门成功',
+        isOpen:false,
         //天气信息
         weatherInfo:{
           temp:27,
@@ -110,6 +119,7 @@
 			methods:{
 				//  手机开门
 				phoneOpen (data) {
+          let that = this;
 					let htoken = getStorage("token");
 					$.ajax({
 						url: getServerUrl()+'/accessDevice/openDoor',
@@ -120,13 +130,23 @@
 						data: {mac:data.deviceId },
 						dataType: 'json',
 						success:function(res){
-							console.log(res)
+							console.log(res.resultDesc);
+              that.isOpen = true;
+              that.openValue = res.resultDesc;
 						},
+            error:function (res) {
+              console.log(res.resultDesc);
+              that.isOpen = true;
+              that.openValue = res.resultDesc;
+            }
 					});
 				},
+        isOpenFuc(){
+				  this.isOpen = false
+        },
 				// 跳转页面
 				goto (value) {
-					console.log(value);
+					// console.log(value);
 					window.location.href = value
 				},
 				// 获取手机开门数据包方法
@@ -144,8 +164,8 @@
 						async:false,
 						success: function(data){
 							if(data.resultCode === '1'){
-								alert(data.resultContent);
-								sessionStorage.setItem('userInfo', data.resultContent); 
+								// alert(data.resultContent);
+								sessionStorage.setItem('userInfo', data.resultContent);
 							}else{
 								alert(data.resultDesc);
 							}
@@ -156,7 +176,7 @@
 					});
 					// 调用接口
 					let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-					
+
 					$.ajax({
 						url: getServerUrl()+"/app/userinfo/selAcsUserInfo",
 						// data: {userPhone: '13308085745'},
@@ -171,16 +191,16 @@
 						success: function(data){
 							if(data.resultCode === '1'){
 								if(data.resultContent.length>0 ){
-									console.log(data.resultContent[0]);
+									// console.log(data.resultContent[0]);
 									let jsonS = JSON.stringify(data.resultContent[0]);
-									console.log(jsonS);
+									// console.log(jsonS);
 									sessionStorage.setItem('acsUserInfo', jsonS);
 									that.phoneOpenData = data.resultContent[0].deviceList;
 									that.getNavData();
 								}else{
 									alert('未找到您的门禁信息,请联系管理人员添加');
 								}
-								console.log(data.resultContent);
+								// console.log(data.resultContent);
 							}else{
 								alert(data.resultDesc);
 							}

@@ -40,9 +40,9 @@
 						<span class="addressName">{{rec.deviceName}}</span>
 						<p class="timeName">{{rec.createTime}}</p>
 					</div>
-					<span class="statusName" :style="{'item.status' : '以开门' ? 'color:#0066ff' : 'color:#ff3333'}">{{rec.status}}</span>
+					<span class="statusName" :style="{'item.status' : '1' ? 'color:#0066ff' : 'color:#ff3333'}">{{rec.status}}</span>
 				</div>
-			</div>	
+			</div>
 		</div>
 		<script type="text/javascript">
 			var records = new Vue({
@@ -110,7 +110,7 @@
 							},
 						});
 					},
-					
+
 				},
 				created(){
 					// 初始化通话记录

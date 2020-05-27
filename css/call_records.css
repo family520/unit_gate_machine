@@ -1,6 +1,9 @@
+body,html {
+    width: 100%;
+}
 #callRec {
 	width: 100%;
-	height: 100%;
+    padding-bottom: 0.2rem;
 	background: #f1f1f1;
 }
 /* headerBox样式 */
@@ -42,7 +45,7 @@
 	align-items: center;
 	justify-content: center;
 	background-color: #ffffff;
-	box-shadow: 0rem 0rem 0.1rem 0rem 
+	box-shadow: 0rem 0rem 0.1rem 0rem
 		rgba(2, 2, 2, 0.2);
 }
 .wqBox {

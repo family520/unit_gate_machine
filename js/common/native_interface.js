@@ -47,7 +47,7 @@ function getServerUrl(){
     // var result = callNativeFunction(GET_SERVER_URL_NAME, []);//打包用
     var result = 'http://103.239.204.50:11650/'; //测试用
     // var result = 'http://localhost:20012/'; //本地用
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
