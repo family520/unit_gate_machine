@@ -15,6 +15,30 @@
   <script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" type="text/css" href="../css/base.css"/>
   <link rel="stylesheet" type="text/css" href="../css/visitors_are_invited.css"/>
+  <style>
+    .loadingBox{
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 999999;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.4rem;
+      background: rgba(255,255,255,1);
+    }
+    .delDiv {
+      width: 50px;
+      height: 100%;
+      background: red;
+      color: white;
+      line-height: 0.8rem;
+      font-size: 0.24rem;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <div class="vaiBox" id="vaiBox">
@@ -38,21 +62,23 @@
             <span>有效期：{{rec.listenedTime}}</span>
           </div>
           <span class="status">未到访</span>
+          <div class="delDiv" v-show="isDel" @click="delItem(rec,index)">删除</div>
         </div>
+
       </div>
     </div>
     <!-- 访客记录 -->
     <div class="vaiList">
-    <div class="vaiListHeader">
-      <span>邀请记录</span>
+    <div class="vaiListHeader" @click="isListShow">
+      <span>来访记录</span>
       <img src="../img/personal_center/nextIcon.png" alt="">
     </div>
-    <div class="listItem">
+    <div class="listItem"v-show="!isListShow1">
       <!-- <p class="address">{{acsUserAddr}} </p> -->
       <div class="listInfo" v-for="(rec, index) in listDataUsed" :key="index">
         <div class="infoBox">
           <p class="userName">{{rec.visitorName}}</p>
-          <span>有效期：{{rec.listenedTime}}</span>
+          <span>来访时间：{{rec.listenedTime}}</span>
         </div>
         <span class="status">已到访</span>
       </div>
@@ -132,9 +158,19 @@
           <img src="../img/face_verification/uploadIcon.png" alt="" id="showIMG">
         </div>
       </div>
-      <button @click="aviInfoIsShow">完成</button>
+      <div class="shareBox">
+        <span>将该页面分享至:</span>
+        <img src="../img/visitors_are_invited/QQIocn.png"/>
+        <img src="../img/visitors_are_invited/weChatIcon.png" alt="">
+      </div>
+      <button @click="aviInfoIsShow" style="margin-top: 0.4rem">完成</button>
     </div>
 
+  </div>
+  <!-- 分享大盒子 -->
+  <!-- 加载动画 -->
+  <div class="loadingBox" v-show="isLoading">
+    <span>页面加载中...</span>
   </div>
 </div>
 <script src="../js/jquery-1.8.3.min.js"></script>
@@ -142,6 +178,7 @@
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="../js/common/touchwipe.js"></script>
 <script type="text/javascript">
   var vai = new Vue({
     el: "#vaiBox",
@@ -150,7 +187,9 @@
       visitorName: '',
       yxqTime: '',
       faceImg: '',
+      isDel: false,
       isShow: false,
+      isLoading:true,
       isListShow1:true,
       selectVal: '',
       ProductActive: '临时二维码',
@@ -184,10 +223,10 @@
         // },
       ],
       listDataUsed: [
-        // {
-        // 	visitorName: '访客姓名1',
-        // 	listenedTime: '2019/05/29  16:34',
-        // },
+        {
+        	visitorName: 'joker',
+        	listenedTime: '2019/05/20  16:34',
+        },
       ],
     },
     methods: {
@@ -237,8 +276,9 @@
           success: function (res) {
             if (res.resultCode === '1') {
               console.log(res);
+              that.selInviteLog(1, 10, 1, acsUserInfo.userId);
               that.listData = res.resultContent.data;
-              that.selInviteLog();
+
             } else {
               alert(res.resultDesc);
             }
@@ -352,7 +392,7 @@
               if (state === 1) {
                 that.listData = res.resultContent.data;
               } else {
-                that.listDataUsed = res.resultContent.data;
+                // that.listDataUsed = res.resultContent.data;
               }
             } else {
               alert(res.resultDesc);
@@ -360,6 +400,11 @@
           },
         });
 
+      },
+
+      // 删除
+      delItem(rec, index) {
+        console.log(rec,index)
       }
 
     },
@@ -370,8 +415,30 @@
       this.num2Qrcode();
       this.selInviteLog(1, 10, 1, acsUserInfo.userId);
       this.selInviteLog(1, 10, 2, acsUserInfo.userId);
+    },
+    mounted(){
+      this.isLoading = false;
     }
   });
+</script>
+<script>
+  window.onload = function() {
+    $(".listItem").touchwipe({
+      min_move_x : 40, // 横向灵敏度
+      min_move_y : 40, // 纵向灵敏度
+
+      wipeLeft : function() {
+        // alert("向左滑动了");
+        vai.isDel = true;
+
+      },
+      wipeRight : function() {
+        // alert("向右滑动了");
+        vai.isDel = false;
+
+      },
+    });
+  }
 </script>
 </body>
 </html>

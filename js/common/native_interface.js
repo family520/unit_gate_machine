@@ -29,7 +29,7 @@ function callNativeFunction(functionName, functionValArr, callback){
 function showToast(msgStr, location){
     var vals = [msgStr,location];
     var result = callNativeFunction(TOAST_NAME, vals);
-    console.info(result);
+    // console.info(result);
     return result;
 }
 
@@ -38,7 +38,7 @@ function showToast(msgStr, location){
 function showBottomToast(msgStr){
     console.info(msgStr);
     var result = showToast(msgStr,TOAST_LOCATION_BOTTOM);
-    console.info(result)
+    // console.info(result)
 }
 
 //获取服务端地址
@@ -54,14 +54,14 @@ function getServerUrl(){
 //启动登录界面
 function startLoginUi(){
     var result = callNativeFunction(START_LOGIN_UI_NAME, []);
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
 //启动主页面
 function startMainUi(){
     var result = callNativeFunction(START_MAIN_UI_NAME, []);
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
@@ -78,7 +78,7 @@ function getUserInfo(){
 function setUserInfo(userInfoObj){
     var vals = [JSON.stringify(userInfoObj)];
     var result = callNativeFunction(SET_USER_INFO_NAME, vals);
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
@@ -88,7 +88,7 @@ function setUserInfo(userInfoObj){
 function setStorage(keyStr, valStr){
     var vals = [keyStr, valStr];
     var result = callNativeFunction(SET_STORAGE_NAME, vals);
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
@@ -99,7 +99,7 @@ function getStorage(keyStr){
     var vals = [keyStr];
     // var result = callNativeFunction(GET_STORAGE_NAME, vals); //打包用
     var result = sessionStorage.getItem('token'); //测试用
-    console.info(result)
+    // console.info(result)
     return result;
 }
 
