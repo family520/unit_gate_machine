@@ -10,6 +10,7 @@
 		<script src="../js/setRem.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/common/constant.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../js/common/utils.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/common/common.js"></script>
 		<script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/face_verification.css"/>
@@ -43,7 +44,8 @@
 			<div class="uploadBox">
 				<img src="../img/face_verification/uploadIcon.png" alt="">
 				<span>重新上传信息</span>
-				<input type="file" id="car_file" accept="image/*"/>
+<!--				<input type="file" id="car_file" accept="image/*"/>-->
+        <input type="file" id="car_file" name="image" accept=“image/*”>
 			</div>
 		</div>
 		<script type="text/javascript">
@@ -109,14 +111,43 @@
 		</script>
 		<script type="text/javascript">
 			$(function(){
-				//当文本框改变时
+        function plusReady() {
+          // 用户侧滑返回时关闭显示的图片
+          plus.webview.currentWebview().addEventListener('popGesture', function(e) {
+            if (e.type == 'start') {
+              // closeImg();
+            }
+          }, false);
+        }
+        document.addEventListener('plusready', plusReady, false);
+
+        function galleryImg() {
+          // 从相册中选择图片
+          // outSet('从相册中选择图片：');
+          console.log("从相册中选择图片");
+          plus.gallery.pick(function(path) {
+            // outLine(path);
+            //showImg( path );
+            //createItem(path);
+            // 更新用户头像接口
+            face.doChangeImg(face.imgUrl.files[0]);
+            console.log("123123213213");
+          }, function(e) {
+            // outSet('取消选择图片');
+            console.log("取消选择图片");
+          }, {
+            filter: 'image'
+          });
+        }
+
+        //当文本框改变时
 				$("#car_file").change(function(){
-				   readURL(this);
+          galleryImg();
 				});
 				function readURL(input) {
 				    if(input.files.length>0){
 						var fr = new FileReader();
-						console.log(input.files[0].name);
+						// console.log(input.files[0].name);
 						//判断图片大小
 						var filesize = input.files[0];
 						if(filesize.size>0){
@@ -133,7 +164,14 @@
 						face.doChangeImg(input.files[0]);
 				    }
 				}
-			});
+
+        // function closeImg() {
+        //   var trnode = document.getElementById('imgShow');
+        //   trnode && trnode.parentNode.removeChild(trnode);
+        // }
+
+      });
+
 		</script>
 	</body>
 </html>

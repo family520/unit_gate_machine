@@ -33,7 +33,7 @@
 			<div class="listBox">
 				<div class="listItem" v-for="(rec, index) in listData" :key="index">
 					<div class="imgBox">
-						<img :src="rec.userImg" alt="">
+						<img :src="userImg" alt="">
 					</div>
 					<div class="testBox">
 						<img class="imgIcon" :src="defaultImg" alt="">
@@ -49,6 +49,9 @@
 				el: "#callRec",
 				data:{
 					ind: 0,
+          page: 1,
+          number: 10,
+          userImg:'../img/call_records/callUserIcon.png',
 					defaultImg: '../img/call_records/letIcon1.png',
 					navList: [
 						{
@@ -58,28 +61,22 @@
 							name:'未接通话'
 						}
 					],
-					listData: [
-						{
-							userImg:'../img/call_records/callUserIcon.png',
-							letImg:'../img/call_records/letIcon1.png',
-							address: 'G栋大厅门',
-							time: '2019/05/29  16:34',
-							status: '以开门'
-						},
-						// {
-						// 	userImg:'',
-						// 	letImg:'../img/call_records/letIcon1.png',
-						// 	address: 'G栋大厅门',
-						// 	time: '2019/05/29  16:34',
-						// 	status: '未开门'
-						// }
-					]
+          newData:[],
+					listData: []
 				},
 				methods:{
 					// 切换样式
 					categoryStyle(index) {
 						this.ind = index;
-						this.getCallRecards(1,10,index);
+						if(index === 0){
+              this.getCallRecards(this.page,this.number,index);
+						  this.defaultImg = '../img/call_records/letIcon1.png';
+						  this.userImg = '../img/call_records/callUserIcon.png';
+            }else if(index === 1){
+              this.getCallRecards(this.page,this.number,index);
+              this.defaultImg = '../img/call_records/letIcon2.png';
+              this.userImg = '';
+            }
 					},
 					// 返回主页面
 					goHome() {
@@ -102,11 +99,12 @@
 							dataType: 'json',
 							success:function(res){
 								if (res.resultCode === '1'){
-									console.log(res);
 									that.listData = res.resultContent.data;
-								}else {
-									alert( res.resultDesc );
-								}
+                  console.log(that.listData);
+                }else {
+									// alert( res.resultDesc );
+                  console.log(res.resultDesc);
+                }
 							},
 						});
 					},
@@ -114,9 +112,29 @@
 				},
 				created(){
 					// 初始化通话记录
-					this.getCallRecards(1,20,0)
+          this.listData = this.getCallRecards(this.page,this.number,0)
 				}
 			});
 		</script>
+    <script>
+      //滚动条到页面底部加载更多案例
+      $(window).scroll(function(){
+        let scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度
+        let scrollHeight = $(document).height();   //当前页面的总高度
+        let clientHeight = $(this).height();    //当前可视的页面高度
+        if(scrollTop + clientHeight >= scrollHeight){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部
+          //滚动条到达底部
+          console.log("---------------------滚动条到达底部---------------------------");
+          records.page ++;
+          records.number = records.number + 10;
+          // 在原有的数据上添加下一页的数据
+          records.listData = records.listData + records.getCallRecards(records.page,records.number,0);
+
+        }else if(scrollTop<=0){
+          //滚动条到达顶部
+          // console.log("滚动条到达顶部")
+        }
+      });
+    </script>
 	</body>
 </html>

@@ -46,10 +46,10 @@
 				</div>
 			</div>
 			<!-- 新闻盒子 -->
-			<div class="newsBox">
-				<img src="../img/home/newsIcon.png" alt="">
-				<span>据气象部门预测，10月12日至15日，我市将迎来....</span>
-			</div>
+<!--			<div class="newsBox">-->
+<!--				<img src="../img/home/newsIcon.png" alt="">-->
+<!--				<span>据气象部门预测，10月12日至15日，我市将迎来....</span>-->
+<!--			</div>-->
 			<!-- titleBox -->
 			<div class="classifyBox">
 				<p>手机开门</p>
@@ -235,11 +235,11 @@
 							imgUrl: '../img/home/fkyqIcon.png',
 							name: '访客邀请'
 						},
-						{
-							path: 'personal_center.html',
-							imgUrl: '../img/home/myIcon.png',
-							name: '个人中心'
-						}
+						// {
+						// 	path: 'personal_center.html',
+						// 	imgUrl: '../img/home/myIcon.png',
+						// 	name: '个人中心'
+						// }
 					];
 				},
 			},
@@ -277,12 +277,12 @@
           dataType: 'jsonp',
           success:function(data){
             console.log(data);
-            var info = data.data.weather.content.today;
-            var temp = info.temp.toString();
+            let info = data.data.weather.content.today;
+            let temp = info.temp.toString();
             console.log(temp);
-            var str = temp.substring(0, temp.length - 1);
+            let str = temp.substring(0, temp.length - 1);
             home.weatherInfo.temp = str;
-            var pm = info.pm25;
+            let pm = info.pm25;
             if(pm > 0 && pm < 50){
               console.log("优");
               home.weatherInfo.pmValue = "优";
@@ -310,6 +310,7 @@
           }
         })
       }
+
     })
   </script>
 </html>
