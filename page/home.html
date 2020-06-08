@@ -20,8 +20,8 @@
 			<div class="titleBox">
 				<!-- 定位地址 -->
 				<div class="addressBox">
-					<img src="../img/home/addressIcon.png" alt="">
-					<span>梦想花园小区</span>
+					<img src="../img/home/returnIcon.png" alt="" @click="goHome">
+					<span>首页</span>
 				</div>
 				<!-- 搜索盒子 -->
 				<div class="searchBox">
@@ -40,7 +40,7 @@
             <span>{{weatherInfo.pm}}  {{weatherInfo.pmValue}}</span>
           </div>
           <div class="threeBox">
-            <span>沙坪坝  西园北街</span>
+            <span> </span>
             <span>{{weatherInfo.date}}</span>
           </div>
 				</div>
@@ -242,6 +242,10 @@
 						// }
 					];
 				},
+        // 返回到app首页
+        goHome() {
+				  console.log('返回app首页')
+        }
 			},
 			created(){
 				// 获取手机开门数据包
