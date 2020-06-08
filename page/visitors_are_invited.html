@@ -38,6 +38,80 @@
       font-size: 0.24rem;
       text-align: center;
     }
+    .shareMaxBox {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width:90%;
+      /*height: 5rem;*/
+      background: white;
+      border-radius: 0.4rem;
+      box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+    }
+    .shareMaxBox h4 {
+      width: 100%;
+      height: 0.8rem;
+      line-height: 0.8rem;
+      text-align: center;
+      font-size: 0.32rem;
+      letter-spacing: 0.05rem;
+      border-bottom: 1px solid rgba(0,0,0,0.3);
+    }
+    .shareMaxBox p {
+      width: 100%;
+      /*height: 0.6rem;*/
+      /*line-height: 0.6rem;*/
+      display: flex;
+      justify-content: left;
+      align-items: center;
+      padding: 0 0.4rem;
+      box-sizing: border-box;
+      margin: 0.1rem 0;
+    }
+    .shareMaxBox p span:nth-child(1){
+      display: inline-block;
+      width: 1.2rem;
+      font-size: 0.24rem;
+      line-height: 0.4rem;
+    }
+    .shareMaxBox p span:nth-child(2){
+      font-size: 0.28rem;
+      line-height: 0.4rem;
+    }
+    .shareMaxBox button{
+      display: flex;
+      justify-content: center;
+      margin-left: 50%;
+      padding: 0.1rem 0.25rem;
+      font-size: 0.32rem;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 0.05rem;
+      margin-top: 0.2rem;
+      border: none;
+      outline: none;
+      border-radius: 0.1rem;
+      background: #2e80ec;
+      color: white;
+      transform: translateX(-50%);
+      margin-bottom: 0.2rem;
+    }
+    .shareMaxBox #faceImg {
+      display: inline-block;
+      width: 2.4rem;
+      height: 2.4rem;
+      /*border: 1px solid red;*/
+    }
+    .classBox {
+      width: 100%;
+      height: 3rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /*border: 1px solid red;*/
+    }
   </style>
 </head>
 <body>
@@ -152,22 +226,51 @@
         <!-- 上传人脸 -->
         <div class="faceUpload" v-show="this.ProductActive == '临时人脸识别'">
           <div class="uploadInputBox">
-            <img class="uploadIcon" src="../img/face_verification/uploadIcon.png" alt="">
-            <input accept="image/*" type="file" id="uploadIMG" @change="btnUploadFile(event)"/>
+            <img class="camera" src="../img/face_verification/uploadIcon.png" alt="" id="img_show1" style="display: none">
+            <input type="file" @change="img_upload1" ref="input_btn1" accept="image/png,image/gif,image/jpeg,image/jpg" capture="camera" multiple>
+            <input type="file" @change="add_mall_img" ref="input_btn2">
           </div>
           <img src="../img/face_verification/uploadIcon.png" alt="" id="showIMG">
         </div>
       </div>
-      <div class="shareBox">
-        <span>将该页面分享至:</span>
-        <img src="../img/visitors_are_invited/QQIocn.png"/>
-        <img src="../img/visitors_are_invited/weChatIcon.png" alt="">
-      </div>
+<!--      <div class="shareBox">-->
+<!--        <span>将该页面分享至:</span>-->
+<!--        <img src="../img/visitors_are_invited/QQIocn.png"/>-->
+<!--        <img src="../img/visitors_are_invited/weChatIcon.png" alt="">-->
+<!--      </div>-->
       <button @click="aviInfoIsShow" style="margin-top: 0.4rem">完成</button>
     </div>
 
   </div>
   <!-- 分享大盒子 -->
+  <div class="shareMaxBox" v-show="isShare">
+    <h4>分享页面</h4>
+    <div>
+      <p>
+        <span>邀请访客:</span>
+        <span>{{shareData.name}}</span>
+      </p>
+      <p>
+        <span>邀请时间:</span>
+        <span>{{shareData.time}}</span>
+      </p>
+      <p>
+        <span>邀请方式:</span>
+        <div class="classBox">
+          <!-- 随机数 -->
+          <span v-show="shareData.type == 4" style="display:inline-block;width: 100%;text-align: center;color: #00FFFF;">{{shareData.randomNumber}}</span>
+          <!-- 随机二维码 -->
+          <div v-show="shareData.type == 3" id="qrcodeBox"></div>
+          <!-- 人脸识别 -->
+          <div v-show="shareData.type == 5">
+            <img id="faceImg" src="" alt="">
+          </div>
+
+        </div>
+      </p>
+      <button @click="noShare">确定</button>
+    </div>
+  </div>
   <!-- 加载动画 -->
   <div class="loadingBox" v-show="isLoading">
     <span>页面加载中...</span>
@@ -184,10 +287,13 @@
     el: "#vaiBox",
     data: {
       ind: 0,
+      idx:-1,
+      isShare:false,
       visitorName: '',
       yxqTime: '',
       faceImg: '',
       isDel: false,
+      userImgIcon:'',
       isShow: false,
       isLoading:true,
       isListShow1:true,
@@ -228,10 +334,68 @@
         	listenedTime: '2019/05/20  16:34',
         },
       ],
+      shareData:{
+        name:'123',
+        time:'123',
+        randomNumber:'',
+        random2Qrcode:'',
+        faceImg:'',
+        type:''
+      }
     },
     methods: {
       shareItem(rec){
-        console.log(rec)
+
+
+        this.isShare = true;
+        console.log(rec);
+        let type = rec.recordType;
+        this.shareData.name = rec.visitorName;
+        this.shareData.time = rec.listenedTime;
+        this.shareData.type = type;
+        let htoken = getStorage("token");
+        if(type == 5){
+          console.log(type);
+          let imgBase64 = "";
+          $.ajax({
+            url:getServerUrl() + '/acsControlImageInfo/selectOne',
+            type: 'get',
+            data: {id: rec.recordInfo },
+            headers: {
+              token: htoken
+            },
+            async: false,
+            success:function(res){
+              if(res){
+                imgBase64 = res.imageInfo;
+
+                $("#faceImg").attr('src', "data:image/jpeg;base64," + imgBase64);
+                  // console.log(this.shareData.faceImg);
+
+
+              }else {
+                console.log(123);
+              }
+            }
+          });
+        }else if(type == 4){
+          this.shareData.randomNumber = rec.recordInfo;
+        }else if(type == 3){
+          // console.log(rec.recordInfo);
+          // 生成二维码
+
+          let qrcode = new QRCode(document.getElementById("qrcodeBox"), {
+            width: 120,//设置宽高
+            height: 120
+          });
+
+          // $('#qrcodeBox').empty()
+          qrcode.makeCode(rec.recordInfo);
+        }
+      },
+      noShare() {
+        $('#qrcodeBox').empty()
+        this.isShare = false;
       },
       isListShow(){
         this.isListShow1 = !this.isListShow1;
@@ -255,7 +419,7 @@
         //提交后台邀请记录
         let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
         var formData = new FormData();
-        formData.append('file', $('#uploadIMG')[0].files[0]);
+        formData.append('file',vai.userImgIcon);
         formData.append('operatorId', acsUserInfo.userId);
         formData.append('operatorName', acsUserInfo.userName);
         formData.append('visitorName', that.visitorName);
@@ -275,12 +439,12 @@
           processData: false,
           success: function (res) {
             if (res.resultCode === '1') {
-              console.log(res);
+              // console.log(res);
               that.selInviteLog(1, 10, 1, acsUserInfo.userId);
               that.listData = res.resultContent.data;
 
             } else {
-              alert(res.resultDesc);
+              alert(res.resultContent);
             }
           },
         });
@@ -395,7 +559,7 @@
                 // that.listDataUsed = res.resultContent.data;
               }
             } else {
-              alert(res.resultDesc);
+              alert(res.resultDesc+"0000");
             }
           },
         });
@@ -405,6 +569,62 @@
       // 删除
       delItem(rec, index) {
         console.log(rec,index)
+        this.idx = index;
+      },
+      isNoIos(){
+        //获取浏览器的userAgent,并转化为小写
+        var ua = navigator.userAgent.toLowerCase();
+        //判断是否是苹果手机，是则是true
+        var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+        if (isIos) {
+          this.$delete(this.$refs.input_btn1,'capture');
+        }
+      },
+      img_upload1(){
+        // this.clickPicture = false;
+        // this.trueUpload = true;
+        let img1 = this.$refs.input_btn1.files[0];
+        vai.userImgIcon = this.$refs.input_btn1.files[0];
+        // this.doChangeImg(img1);
+        // this.img1 = img1;
+        let reader = new FileReader();
+        reader.readAsDataURL(img1);
+        // console.log(img1);
+        // if(this.img1){
+        //   let fd = new FormData();
+        //   fd.append('file',this.img1);
+        //   this.doChangeImg(fd);
+        // }
+        reader.onloadend = function(e){
+          let img = document.getElementById("showIMG");
+          img.src = e.target.result;
+          // console.log(e.target.result);
+        }
+
+      },
+      add_mall_img(){
+        // this.clickPicture = false;
+        // this.trueUpload = true;
+        let img1 = this.$refs.input_btn2.files[0];
+        console.log(img1);
+        vai.userImgIcon = this.$refs.input_btn2.files[0];
+        console.log(vai.userImgIcon);
+        // this.doChangeImg(img1);
+        // this.img1 = img1;
+        let reader = new FileReader();
+        reader.readAsDataURL(img1);
+        // console.log(img1);
+        // if(this.img1){
+        //   let fd = new FormData();
+        //   fd.append('file',this.img1);
+        //   this.doChangeImg(fd);
+        // }
+        reader.onloadend = function(e){
+          let img = document.getElementById("showIMG");
+          img.src = e.target.result;
+          // console.log(e.target.result);
+        }
+
       }
 
     },
@@ -418,6 +638,7 @@
     },
     mounted(){
       this.isLoading = false;
+      this.isNoIos();
     }
   });
 </script>
@@ -430,6 +651,8 @@
       wipeLeft : function() {
         // alert("向左滑动了");
         vai.isDel = true;
+        console.log(vai.isDel);
+        // console.log(rec);
 
       },
       wipeRight : function() {

@@ -14,6 +14,45 @@
 		<script src="../js/common/native_interface.js" type="text/javascript" charset="utf-8"></script>
 		<link rel="stylesheet" type="text/css" href="../css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="../css/face_verification.css"/>
+    <style>
+      .maxTemBox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 99999;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      .telTemBox {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 60%;
+        /*height: 100px;*/
+        padding:0.2rem;
+        box-sizing: border-box;
+        background-color: white;
+        transform: translate(-50%, -50%);
+      }
+      .telTemBox > h3 {
+        display: block;
+        width: 100%;
+        height: 0.4rem;
+        font-size: 0.32rem;
+        text-align: center;
+      }
+      .telTemBox button {
+        width: 100%;
+        height: 0.6rem;
+        outline: none;
+        background-color: #2e80ec;
+        color: white;
+        border: none;
+        font-size: 0.24rem;
+        letter-spacing: 0.05rem;
+      }
+    </style>
 	</head>
 	<body>
 		<div class="faceBox" id="faceBox">
@@ -44,9 +83,20 @@
 			<div class="uploadBox">
 				<img src="../img/face_verification/uploadIcon.png" alt="">
 				<span>重新上传信息</span>
-<!--				<input type="file" id="car_file" accept="image/*"/>-->
-        <input type="file" id="car_file" name="image" accept=“image/*”>
+<!--        <input type="file" id="car_file" name="image" accept="image/*" @change="addImg">-->
+        <img class="camera" src="../img/face_verification/uploadIcon.png" alt="" id="img_show1" style="display: none">
+        <input type="file" @change="img_upload1" ref="input_btn1" accept="image/png,image/gif,image/jpeg,image/jpg" capture="camera" multiple>
+        <input type="file" @change="add_mall_img" ref="input_btn2">
+<!--        <div @click="tureUpload">确认上传</div>-->
+
 			</div>
+      <!-- 提示弹框  -->
+      <div class="maxTemBox" v-show="isOpen">
+        <div class="telTemBox">
+          <h3>{{openValue}}</h3>
+          <button @click="isOpenFuc">确定</button>
+        </div>
+      </div>
 		</div>
 		<script type="text/javascript">
 			var face = new Vue({
@@ -58,8 +108,13 @@
 					acsUserType: '户主',
 					acsCreateTime: '2020-01-01 00:00:00',
 					acsUID: '',
+          isOpen:false,
+          openValue:'上传成功'
 				},
 				methods: {
+          isOpenFuc() {
+            face.isOpen = false;
+          },
 					goHome() {
 						window.location.href = 'home.html';
 					},
@@ -82,7 +137,7 @@
 						let formData = new FormData();
 						formData.append('file', file);
 						formData.append('userId', that.acsUID);
-						console.log(formData);
+						// console.log(formData);
 						let htoken = getStorage("token");
 						$.ajax({
 							url: getServerUrl()+'/app/userinfo/upAcsUserFace',
@@ -95,83 +150,176 @@
 							processData: false,
 							success:function(res){
 								if (res.resultCode === '1'){
-									alert('提交成功' )
-								}else {
-									alert( res.resultDesc );
+									// alert('提交成功' )
+                  console.log(res);
+                  face.isOpen = true;
+                  face.openValue = res.resultDesc
+                  // let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
+                  // console.log(acsUserInfo);
+                  // that.imgUrl = 'data:image/jpeg;base64,'+acsUserInfo.userFaceInfo;
+                }else {
+									// alert( res.resultDesc );
+                  face.isOpen = true;
+                  face.openValue = res.resultDesc
 								}
 							},
 						});
-					}
+					},
+          isNoIos(){
+            //获取浏览器的userAgent,并转化为小写
+            var ua = navigator.userAgent.toLowerCase();
+            //判断是否是苹果手机，是则是true
+            var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+            if (isIos) {
+              this.$delete(this.$refs.input_btn1,'capture');
+            }
+          },
+          img_upload1(){
+            // this.clickPicture = false;
+            // this.trueUpload = true;
+            let img1 = this.$refs.input_btn1.files[0];
+            this.doChangeImg(img1);
+            // this.img1 = img1;
+            let reader = new FileReader();
+            reader.readAsDataURL(img1);
+            // console.log(img1);
+            // if(this.img1){
+            //   let fd = new FormData();
+            //   fd.append('file',this.img1);
+            //   this.doChangeImg(fd);
+            // }
+            reader.onloadend = function(e){
+              // let img = document.getElementById("img_show1");
+              face.imgUrl = e.target.result;
+              console.log(e.target.result);
+            }
+
+          },
+          add_mall_img(){
+            // this.clickPicture = false;
+            // this.trueUpload = true;
+            let img1 = this.$refs.input_btn2.files[0];
+            this.doChangeImg(img1);
+            // this.img1 = img1;
+            let reader = new FileReader();
+            reader.readAsDataURL(img1);
+            // console.log(img1);
+            // if(this.img1){
+            //   let fd = new FormData();
+            //   fd.append('file',this.img1);
+            //   this.doChangeImg(fd);
+            // }
+            reader.onloadend = function(e){
+              // let img = document.getElementById("img_show1");
+              face.imgUrl = e.target.result;
+              console.log(e.target.result);
+            }
+
+          }
 				},
 				created(){
 					// 初始化用户信息
 					this.initeImgInfo()
-				}
+				},
+        mounted() {
+          this.isNoIos();
+        }
 			});
 		</script>
-		<script type="text/javascript">
-			$(function(){
-        function plusReady() {
-          // 用户侧滑返回时关闭显示的图片
-          plus.webview.currentWebview().addEventListener('popGesture', function(e) {
-            if (e.type == 'start') {
-              // closeImg();
-            }
-          }, false);
-        }
-        document.addEventListener('plusready', plusReady, false);
+<!--		<script type="text/javascript">-->
+<!--      //取消浏览器的所有事件，使得active的样式在手机上正常生效-->
+<!--      document.addEventListener('touchstart',function(){-->
+<!--        return false;-->
+<!--      },true);-->
+<!--      // 禁止选择-->
+<!--      document.oncontextmenu=function(){-->
+<!--        return false;-->
+<!--      };-->
+<!--      // H5 plus事件处理-->
+<!--      function plusReady(){-->
+<!--        // openPrivacy();-->
+<!--        // Android处理返回键-->
+<!--        plus.key.addEventListener('backbutton',function(){-->
+<!--          ('iOS'==plus.os.name)?plus.nativeUI.confirm('确认退出？', function(e){-->
+<!--            if(e.index>0){-->
+<!--              plus.runtime.quit();-->
+<!--            }-->
+<!--          }, 'HelloH5', ['取消','确定']):(confirm('确认退出？')&&plus.runtime.quit());-->
+<!--        },false);-->
+<!--        // 关闭启动界面-->
+<!--        plus.navigator.setStatusBarBackground('#D74B28');-->
+<!--        setTimeout(function(){-->
+<!--          plus.navigator.closeSplashscreen();-->
+<!--        },200);-->
+<!--      }-->
+<!--      if(window.plus){-->
+<!--        plusReady();-->
+<!--      }else{-->
+<!--        document.addEventListener('plusready',plusReady,false);-->
+<!--      }-->
+<!--			$(function(){-->
+<!--        document.addEventListener('plusready', plusReady, false);-->
+<!--        function plusReady() {-->
+<!--          // 用户侧滑返回时关闭显示的图片-->
+<!--          plus.webview.currentWebview().addEventListener('popGesture', function(e) {-->
+<!--            if (e.type == 'start') {-->
+<!--              // closeImg();-->
+<!--            }-->
+<!--          }, false);-->
+<!--        }-->
 
-        function galleryImg() {
-          // 从相册中选择图片
-          // outSet('从相册中选择图片：');
-          console.log("从相册中选择图片");
-          plus.gallery.pick(function(path) {
-            // outLine(path);
-            //showImg( path );
-            //createItem(path);
-            // 更新用户头像接口
-            face.doChangeImg(face.imgUrl.files[0]);
-            console.log("123123213213");
-          }, function(e) {
-            // outSet('取消选择图片');
-            console.log("取消选择图片");
-          }, {
-            filter: 'image'
-          });
-        }
 
-        //当文本框改变时
-				$("#car_file").change(function(){
-          galleryImg();
-				});
-				function readURL(input) {
-				    if(input.files.length>0){
-						var fr = new FileReader();
-						// console.log(input.files[0].name);
-						//判断图片大小
-						var filesize = input.files[0];
-						if(filesize.size>0){
-							if(filesize.size>1024*1024*5){
-								alert('请上传小于5MB的图片');
-								return false;
-							}
-						}
-						fr.onload = function(e) {
-							face.imgUrl = e.target.result;
-						}
-						fr.readAsDataURL(input.files[0]);//将图片读取为DataURL
-						// 更新用户头像接口
-						face.doChangeImg(input.files[0]);
-				    }
-				}
+<!--        function galleryImg() {-->
+<!--          // 从相册中选择图片-->
+<!--          // outSet('从相册中选择图片：');-->
+<!--          console.log("从相册中选择图片");-->
+<!--          plus.gallery.pick(function(path) {-->
+<!--            outLine(path);-->
+<!--            //showImg( path );-->
+<!--            //createItem(path);-->
+<!--            // 更新用户头像接口-->
+<!--            face.doChangeImg(face.imgUrl.files[0]);-->
+<!--            console.log("123123213213");-->
+<!--          }, function(e) {-->
+<!--            // outSet('取消选择图片');-->
+<!--            console.log("取消选择图片");-->
+<!--          }, {-->
+<!--            filter: 'image'-->
+<!--          });-->
+<!--        }-->
 
-        // function closeImg() {
-        //   var trnode = document.getElementById('imgShow');
-        //   trnode && trnode.parentNode.removeChild(trnode);
-        // }
+<!--        //当文本框改变时-->
+<!--				$("#car_file").change(function(){-->
+<!--          galleryImg();-->
+<!--				});-->
+<!--				function readURL(input) {-->
+<!--				    if(input.files.length>0){-->
+<!--						var fr = new FileReader();-->
+<!--						// console.log(input.files[0].name);-->
+<!--						//判断图片大小-->
+<!--						var filesize = input.files[0];-->
+<!--						if(filesize.size>0){-->
+<!--							if(filesize.size>1024*1024*5){-->
+<!--								alert('请上传小于5MB的图片');-->
+<!--								return false;-->
+<!--							}-->
+<!--						}-->
+<!--						fr.onload = function(e) {-->
+<!--							face.imgUrl = e.target.result;-->
+<!--						}-->
+<!--						fr.readAsDataURL(input.files[0]);//将图片读取为DataURL-->
+<!--						// 更新用户头像接口-->
+<!--						face.doChangeImg(input.files[0]);-->
+<!--				    }-->
+<!--				}-->
 
-      });
+<!--        // function closeImg() {-->
+<!--        //   var trnode = document.getElementById('imgShow');-->
+<!--        //   trnode && trnode.parentNode.removeChild(trnode);-->
+<!--        // }-->
 
-		</script>
+<!--      });-->
+
+<!--		</script>-->
 	</body>
 </html>

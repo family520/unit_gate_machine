@@ -18,10 +18,10 @@
 	display: flex;
 	justify-content: left;
 	align-items: center;
-	margin-top: 0.66rem;
+	margin-top: 0.4rem;
 }
 .titleBox .addressBox > img {
-	width: 0.3rem;
+	width: 0.24rem;
 	height: 0.36rem;
 }
 .titleBox .addressBox > span {
