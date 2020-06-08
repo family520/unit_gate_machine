@@ -301,7 +301,6 @@
       ProductActive: '临时二维码',
       v_code: '',
       acsUserAddr: '',
-      // v_qrcode: '../img/visitors_are_invited/Qr_codeIcon.png',
       v_qrcode: '',
       checkSex: [
         {
@@ -345,8 +344,6 @@
     },
     methods: {
       shareItem(rec){
-
-
         this.isShare = true;
         console.log(rec);
         let type = rec.recordType;
@@ -368,11 +365,7 @@
             success:function(res){
               if(res){
                 imgBase64 = res.imageInfo;
-
                 $("#faceImg").attr('src', "data:image/jpeg;base64," + imgBase64);
-                  // console.log(this.shareData.faceImg);
-
-
               }else {
                 console.log(123);
               }
@@ -381,15 +374,11 @@
         }else if(type == 4){
           this.shareData.randomNumber = rec.recordInfo;
         }else if(type == 3){
-          // console.log(rec.recordInfo);
           // 生成二维码
-
           let qrcode = new QRCode(document.getElementById("qrcodeBox"), {
             width: 120,//设置宽高
             height: 120
           });
-
-          // $('#qrcodeBox').empty()
           qrcode.makeCode(rec.recordInfo);
         }
       },
