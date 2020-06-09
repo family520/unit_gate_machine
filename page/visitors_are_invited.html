@@ -328,10 +328,10 @@
         // },
       ],
       listDataUsed: [
-        {
-        	visitorName: 'joker',
-        	listenedTime: '2019/05/20  16:34',
-        },
+        // {
+        // 	// visitorName: 'joker',
+        // 	// listenedTime: '2019/05/20  16:34',
+        // },
       ],
       shareData:{
         name:'123',
@@ -343,6 +343,7 @@
       }
     },
     methods: {
+      // 分享页面
       shareItem(rec){
         this.isShare = true;
         console.log(rec);
@@ -382,8 +383,9 @@
           qrcode.makeCode(rec.recordInfo);
         }
       },
+      // 关闭分享
       noShare() {
-        $('#qrcodeBox').empty()
+        $('#qrcodeBox').empty();
         this.isShare = false;
       },
       isListShow(){
@@ -544,6 +546,21 @@
               console.log(res);
               if (state === 1) {
                 that.listData = res.resultContent.data;
+                console.log(that.listData);
+                let now = new Date();
+                for(let i = 0; i < that.listData.length; i++){
+                  if(that.listData[i].state == 2){
+                    console.log(that.listData[i]);
+                    that.listDataUsed.push(that.listData[i]);
+                    that.listData.splice(i,1);
+                    i -= 1;
+                  }
+                  if(now > new Date(that.listData[i].listenedTime)){
+                    that.listData.splice(i,1);
+                    i -= 1;
+                  }
+
+                }
               } else {
                 // that.listDataUsed = res.resultContent.data;
               }
