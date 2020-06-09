@@ -51,7 +51,7 @@
 					ind: 0,
           page: 1,
           number: 10,
-          userImg:'../img/call_records/callUserIcon.png',
+          userImg:'',
 					defaultImg: '../img/call_records/letIcon1.png',
 					navList: [
 						{
@@ -67,11 +67,12 @@
 				methods:{
 					// 切换样式
 					categoryStyle(index) {
+            let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
 						this.ind = index;
 						if(index === 0){
               this.getCallRecards(this.page,this.number,index);
 						  this.defaultImg = '../img/call_records/letIcon1.png';
-						  this.userImg = '../img/call_records/callUserIcon.png';
+						  this.userImg = 'data:image/jpeg;base64,'+acsUserInfo.userFaceInfo;
             }else if(index === 1){
               this.getCallRecards(this.page,this.number,index);
               this.defaultImg = '../img/call_records/letIcon2.png';
@@ -112,7 +113,9 @@
 				},
 				created(){
 					// 初始化通话记录
-          this.listData = this.getCallRecards(this.page,this.number,0)
+          this.listData = this.getCallRecards(this.page,this.number,0);
+          let acsUserInfo = JSON.parse(sessionStorage.getItem('acsUserInfo'));
+          this.userImg = 'data:image/jpeg;base64,'+acsUserInfo.userFaceInfo;
 				}
 			});
 		</script>
