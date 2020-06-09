@@ -112,6 +112,19 @@
       justify-content: center;
       /*border: 1px solid red;*/
     }
+    .mmmm {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.4rem;
+      background: rgba(255,255,255,0.5);
+    }
   </style>
 </head>
 <body>
@@ -275,6 +288,13 @@
   <div class="loadingBox" v-show="isLoading">
     <span>页面加载中...</span>
   </div>
+  <!-- 加载动画 -->
+  <div class="loadingBox mmmm" v-show="isOK">
+    <div style="text-align: center;padding: 0.5rem 0.8rem;background: white;box-shadow: 0 0 2px 2px rgba(0,0,0,0.1)">
+      <p>添加成功</p>
+      <button @click="noOK" style="margin-top: 0.2rem;width: 1.2rem;height: 0.6rem;background: #51c6ff;color: white;border: none;font-size: 0.26rem;letter-spacing: 0.1rem;border-radius: 0.1rem">确定</button>
+    </div>
+  </div>
 </div>
 <script src="../js/jquery-1.8.3.min.js"></script>
 <!-- import Vue before Element -->
@@ -288,6 +308,7 @@
     data: {
       ind: 0,
       idx:-1,
+      isOK:false,
       isShare:false,
       visitorName: '',
       yxqTime: '',
@@ -343,6 +364,10 @@
       }
     },
     methods: {
+      // 关闭
+      noOK(){
+        this.isOK = false;
+      },
       // 分享页面
       shareItem(rec){
         this.isShare = true;
@@ -431,6 +456,7 @@
           success: function (res) {
             if (res.resultCode === '1') {
               // console.log(res);
+              that.isOK = true;
               that.selInviteLog(1, 10, 1, acsUserInfo.userId);
               that.listData = res.resultContent.data;
 
@@ -543,26 +569,22 @@
           dataType: 'json',
           success: function (res) {
             if (res.resultCode === '1') {
-              console.log(res);
               if (state === 1) {
+                console.log(res);
                 that.listData = res.resultContent.data;
-                console.log(that.listData);
+                // console.log(that.listData);
                 let now = new Date();
                 for(let i = 0; i < that.listData.length; i++){
-                  if(that.listData[i].state == 2){
-                    console.log(that.listData[i]);
-                    that.listDataUsed.push(that.listData[i]);
-                    that.listData.splice(i,1);
-                    i -= 1;
-                  }
                   if(now > new Date(that.listData[i].listenedTime)){
                     that.listData.splice(i,1);
                     i -= 1;
                   }
 
                 }
-              } else {
+              } else if(state === 2){
+                console.log(res);
                 // that.listDataUsed = res.resultContent.data;
+                that.listDataUsed =res.resultContent.data;
               }
             } else {
               alert(res.resultDesc+"0000");
@@ -641,6 +663,8 @@
       this.num2Qrcode();
       this.selInviteLog(1, 10, 1, acsUserInfo.userId);
       this.selInviteLog(1, 10, 2, acsUserInfo.userId);
+      // this.listDataUsed = this.selInviteLog(1, 10, 2, acsUserInfo.userId);
+      // console.log(this.listDataUsed);
     },
     mounted(){
       this.isLoading = false;
