@@ -129,7 +129,7 @@
           //滚动条到达底部
           console.log("---------------------滚动条到达底部---------------------------");
           records.page ++;
-          records.number = records.number + 10;
+          records.number = records.number;
           // 在原有的数据上添加下一页的数据
           records.listData = records.listData + records.getCallRecards(records.page,records.number,0);
 

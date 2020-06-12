@@ -61,7 +61,7 @@ function startLoginUi(){
 //启动主页面
 function startMainUi(){
     var result = callNativeFunction(START_MAIN_UI_NAME, []);
-    // console.info(result)
+    // console.info(result);
     return result;
 }
 
