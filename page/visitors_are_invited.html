@@ -148,7 +148,9 @@
             <p class="userName">{{rec.visitorName}}</p>
             <span>有效期：{{rec.listenedTime}}</span>
           </div>
-          <span class="status">未到访</span>
+          <span v-show="noGo == '未到访'" class="status">{{noGo}}</span>
+          <span v-show="noGo == '已到期'" class="status">{{noGo}}</span>
+<!--          <span v-show="isDQ" class="status">已过期</span>-->
           <div class="delDiv" v-show="isDel" @click="delItem(rec,index)">删除</div>
         </div>
 
@@ -172,7 +174,7 @@
     </div>
   </div>
   </div>
-  <!-- 新增邀请 -->
+  <!-- 新增邀请按钮 -->
   <div class="addVai" @click="addVai">
     <img src="../img/visitors_are_invited/addIcon.png" alt="">
     <span>新增邀请</span>
@@ -180,7 +182,7 @@
   <!-- 新增邀请大盒子 -->
   <div class="addvaiBox" v-show="isShow">
     <!-- 头部盒子 -->
-    <div class="headerBox">
+    <div class="headerBox" @click="nnnnShow">
       <img src="../img/personal_center/returnBlackIcon.png" alt="">
       <p>新增邀请</p>
     </div>
@@ -308,6 +310,8 @@
     data: {
       ind: 0,
       idx:-1,
+      noGo:'未到访',
+      isDQ:false,
       isOK:false,
       isShare:false,
       visitorName: '',
@@ -416,6 +420,10 @@
       isListShow(){
         this.isListShow1 = !this.isListShow1;
       },
+      nnnnShow(){
+        this.isShow = false;
+        console.log("1231313")
+      },
       // 切换样式
       categoryStyle(index) {
         this.ind = index;
@@ -512,6 +520,7 @@
       // 返回home页面
       goTo() {
         window.location.href = 'home.html'
+        console.log("987654")
       },
       addVai() {
         $("#checkType").find("option[value='临时二维码']").attr("selected", true);
@@ -576,9 +585,11 @@
                 let now = new Date();
                 for(let i = 0; i < that.listData.length; i++){
                   if(now > new Date(that.listData[i].listenedTime)){
-                    that.listData.splice(i,1);
-                    i -= 1;
+                    // that.listData.splice(i,1);
+                    // i -= 1;
+                    // that.isDQ = true;
                   }
+
 
                 }
               } else if(state === 2){
