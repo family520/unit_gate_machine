@@ -151,7 +151,7 @@
           <span v-show="noGo == '未到访'" class="status">{{noGo}}</span>
           <span v-show="noGo == '已到期'" class="status">{{noGo}}</span>
 <!--          <span v-show="isDQ" class="status">已过期</span>-->
-          <div class="delDiv" v-show="isDel" @click="delItem(rec,index)">删除</div>
+<!--          <div class="delDiv" v-show="isDel" @click="delItem(rec,index)">删除</div>-->
         </div>
 
       </div>
@@ -682,27 +682,6 @@
       this.isNoIos();
     }
   });
-</script>
-<script>
-  window.onload = function() {
-    $(".listItem").touchwipe({
-      min_move_x : 40, // 横向灵敏度
-      min_move_y : 40, // 纵向灵敏度
-
-      wipeLeft : function() {
-        // alert("向左滑动了");
-        vai.isDel = true;
-        console.log(vai.isDel);
-        // console.log(rec);
-
-      },
-      wipeRight : function() {
-        // alert("向右滑动了");
-        vai.isDel = false;
-
-      },
-    });
-  }
 </script>
 </body>
 </html>
