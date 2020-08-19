@@ -164,7 +164,7 @@
     </div>
     <div class="listItem"v-show="!isListShow1">
       <!-- <p class="address">{{acsUserAddr}} </p> -->
-      <div class="listInfo" v-for="(rec, index) in listDataUsed" :key="index">
+      <div class="listInfo" v-for="(rec, index) in listDataUsed" :key="index" @click="shareItem(rec)">
         <div class="infoBox">
           <p class="userName">{{rec.visitorName}}</p>
           <span>来访时间：{{rec.visiteTime}}</span>
